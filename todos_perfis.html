@@ -1,0 +1,579 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>SST Marketplace · Para Todos os Perfis</title>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,300;0,9..144,700;0,9..144,900;1,9..144,400;1,9..144,700&family=DM+Sans:wght@300;400;500;600&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+html,body{width:100%;height:100%;overflow:hidden;background:#000}
+body{font-family:'DM Sans',sans-serif}
+
+/* ── CORES POR PERFIL ─── */
+:root{
+  --teal:#00c97a;--teal-dim:rgba(0,201,122,.1);--teal-mid:rgba(0,201,122,.25);
+  --amber:#ef9f27;--amber-dim:rgba(239,159,39,.1);--amber-mid:rgba(239,159,39,.25);
+  --blue:#378add;--blue-dim:rgba(55,138,221,.1);--blue-mid:rgba(55,138,221,.25);
+  --bg:#060d08;
+}
+
+/* ── STAGE ─── */
+.stage{width:100vw;height:100vh;position:relative;overflow:hidden;background:var(--bg)}
+.bg-grid{position:absolute;inset:0;background-image:linear-gradient(rgba(0,201,122,.04) 1px,transparent 1px),linear-gradient(90deg,rgba(0,201,122,.04) 1px,transparent 1px);background-size:48px 48px}
+.bg-orb{position:absolute;border-radius:50%;pointer-events:none;transition:all 1.4s cubic-bezier(.4,0,.2,1)}
+.orb-a{width:500px;height:500px;background:#0a6644;opacity:.14;top:-150px;left:-100px}
+.orb-b{width:350px;height:350px;background:#00c97a;opacity:.05;bottom:-80px;right:-80px}
+.scan-line{position:absolute;left:0;right:0;height:1px;background:linear-gradient(90deg,transparent,rgba(0,201,122,.3),transparent);pointer-events:none;z-index:50;animation:scanMove 6s linear infinite}
+@keyframes scanMove{0%{top:-1px;opacity:0}5%{opacity:1}95%{opacity:.4}100%{top:100%;opacity:0}}
+
+/* ── BRAND ─── */
+.brand-tag{position:absolute;top:22px;left:28px;display:flex;align-items:center;gap:8px;z-index:100}
+.brand-mark{width:28px;height:28px;border-radius:7px;background:var(--teal);display:flex;align-items:center;justify-content:center}
+.brand-mark svg{width:14px;height:14px;fill:#042c1a}
+.brand-name{font-family:'Fraunces',serif;font-size:15px;font-weight:700;color:rgba(255,255,255,.35);letter-spacing:-.3px}
+.brand-name span{color:var(--teal)}
+
+/* ── PROGRESS ─── */
+.progress-wrap{position:absolute;bottom:0;left:0;right:0;height:3px;background:rgba(255,255,255,.05);z-index:100}
+.progress-fill{height:100%;background:var(--teal);width:0%;transition:width linear}
+
+/* ── DOTS ─── */
+.dots{position:absolute;bottom:18px;left:50%;transform:translateX(-50%);display:flex;gap:6px;z-index:100}
+.dot{width:6px;height:6px;border-radius:50%;background:rgba(255,255,255,.12);transition:all .3s;cursor:pointer}
+.dot.active{background:var(--teal);transform:scale(1.4)}
+
+/* ── CONTROLS ─── */
+.controls{position:absolute;bottom:12px;right:20px;display:flex;gap:7px;z-index:100}
+.ctrl-btn{width:32px;height:32px;border-radius:7px;background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.07);color:rgba(255,255,255,.35);display:flex;align-items:center;justify-content:center;cursor:pointer;font-size:13px;transition:all .15s}
+.ctrl-btn:hover{background:rgba(0,201,122,.1);border-color:rgba(0,201,122,.2);color:var(--teal)}
+.slide-counter{position:absolute;bottom:16px;left:20px;font-family:'DM Mono',monospace;font-size:11px;color:rgba(255,255,255,.12);z-index:100;letter-spacing:.5px}
+
+/* ── SLIDES ─── */
+.slides{position:absolute;inset:0}
+.slide{position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center;padding:56px 72px;opacity:0;pointer-events:none;transition:opacity .5s ease}
+.slide.active{opacity:1;pointer-events:all}
+
+/* ── ANIMATIONS ─── */
+@keyframes fadeUp{from{opacity:0;transform:translateY(28px)}to{opacity:1;transform:translateY(0)}}
+@keyframes fadeLeft{from{opacity:0;transform:translateX(-24px)}to{opacity:1;transform:translateX(0)}}
+@keyframes fadeRight{from{opacity:0;transform:translateX(24px)}to{opacity:1;transform:translateX(0)}}
+@keyframes scaleIn{from{opacity:0;transform:scale(.82)}to{opacity:1;transform:scale(1)}}
+@keyframes lineW{from{width:0}to{width:100%}}
+@keyframes pulse{0%,100%{opacity:1}50%{opacity:.4}}
+@keyframes blink{0%,100%{opacity:1}50%{opacity:0}}
+@keyframes float{0%,100%{transform:translateY(0)}50%{transform:translateY(-8px)}}
+
+.au{animation:fadeUp .65s cubic-bezier(.2,0,.2,1) both}
+.al{animation:fadeLeft .65s cubic-bezier(.2,0,.2,1) both}
+.ar{animation:fadeRight .65s cubic-bezier(.2,0,.2,1) both}
+.as{animation:scaleIn .55s cubic-bezier(.34,1.2,.64,1) both}
+.d1{animation-delay:.1s}.d2{animation-delay:.28s}.d3{animation-delay:.46s}
+.d4{animation-delay:.64s}.d5{animation-delay:.82s}.d6{animation-delay:1s}
+.d7{animation-delay:1.18s}.d8{animation-delay:1.36s}.d9{animation-delay:1.54s}
+
+/* ── TYPOGRAPHY ─── */
+.eyebrow{font-size:11px;font-weight:500;letter-spacing:1.4px;text-transform:uppercase;color:var(--teal);display:flex;align-items:center;gap:9px;margin-bottom:18px}
+.eyebrow::before{content:'';width:24px;height:1px;background:var(--teal)}
+.eyebrow.amber{color:var(--amber)}.eyebrow.amber::before{background:var(--amber)}
+.eyebrow.blue{color:var(--blue)}.eyebrow.blue::before{background:var(--blue)}
+
+.display{font-family:'Fraunces',serif;font-size:clamp(36px,5vw,66px);font-weight:900;line-height:1.02;letter-spacing:-2px;color:#e8f2ec;margin-bottom:14px}
+.display em{font-style:italic;color:var(--teal)}
+.display em.amber{color:var(--amber)}
+.display em.blue{color:var(--blue)}
+
+.lead{font-size:clamp(15px,1.6vw,20px);font-weight:300;color:#7da889;line-height:1.65;max-width:580px}
+.lead strong{color:#e8f2ec;font-weight:500}
+
+/* ── SLIDE 1 — ABERTURA GERAL ─── */
+#s1 .bg-ring{position:absolute;border-radius:50%;border:1px solid rgba(0,201,122,.06)}
+#s1 .r1{width:420px;height:420px;top:50%;left:50%;transform:translate(-50%,-50%)}
+#s1 .r2{width:640px;height:640px;top:50%;left:50%;transform:translate(-50%,-50%)}
+#s1 .r3{width:860px;height:860px;top:50%;left:50%;transform:translate(-50%,-50%)}
+#s1 .cursor{display:inline-block;width:3px;height:.85em;background:var(--teal);margin-left:3px;vertical-align:middle;animation:blink 1s infinite}
+
+/* ── SLIDE 2 — TRÊS MUNDOS ─── */
+#s2 .worlds{display:flex;gap:16px;max-width:860px;width:100%;margin-top:28px}
+#s2 .world{flex:1;border-radius:14px;padding:24px 20px;position:relative;overflow:hidden;border:1px solid}
+#s2 .world.teal{background:rgba(0,201,122,.04);border-color:rgba(0,201,122,.15)}
+#s2 .world.amber{background:rgba(239,159,39,.04);border-color:rgba(239,159,39,.15)}
+#s2 .world.blue{background:rgba(55,138,221,.04);border-color:rgba(55,138,221,.15)}
+#s2 .world-stripe{position:absolute;top:0;left:0;right:0;height:2px}
+#s2 .world-emoji{font-size:32px;margin-bottom:12px;display:block;animation:float 3s ease-in-out infinite}
+#s2 .world-emoji:nth-child(1){animation-delay:0s}
+#s2 .world-emoji:nth-child(2){animation-delay:.5s}
+#s2 .world-emoji:nth-child(3){animation-delay:1s}
+#s2 .world-role{font-size:11px;font-weight:500;letter-spacing:.8px;text-transform:uppercase;margin-bottom:8px}
+#s2 .world.teal .world-role{color:#0f6e56}
+#s2 .world.amber .world-role{color:#854f0b}
+#s2 .world.blue .world-role{color:#185fa5}
+#s2 .world-pain{font-size:13px;color:#5a7a65;line-height:1.55;font-style:italic}
+#s2 .world-tag{display:inline-block;margin-top:12px;font-size:10px;font-weight:500;letter-spacing:.5px;padding:3px 9px;border-radius:20px}
+#s2 .world.teal .world-tag{background:rgba(0,201,122,.08);color:#00c97a}
+#s2 .world.amber .world-tag{background:rgba(239,159,39,.08);color:#ef9f27}
+#s2 .world.blue .world-tag{background:rgba(55,138,221,.08);color:#378add}
+
+/* ── SLIDE 3 — PROFISSIONAL ─── */
+#s3 .proof-row{display:flex;gap:12px;flex-wrap:wrap;margin-top:24px;max-width:640px}
+#s3 .proof{display:flex;align-items:center;gap:8px;background:rgba(0,201,122,.05);border:1px solid rgba(0,201,122,.12);border-radius:8px;padding:10px 14px;font-size:13px;color:#7da889}
+#s3 .proof-x{color:#e05c4a;font-size:16px;font-weight:700}
+#s3 .dor-stat{margin-top:24px;padding:16px 20px;background:rgba(0,0,0,.2);border:1px solid rgba(0,201,122,.1);border-radius:10px;display:flex;align-items:center;gap:16px;max-width:540px}
+#s3 .dor-n{font-family:'Fraunces',serif;font-size:36px;font-weight:800;color:var(--teal);line-height:1}
+#s3 .dor-txt{font-size:13px;color:#5a7a65;line-height:1.5}
+
+/* ── SLIDE 4 — EMPRESA ─── */
+#s4 .risk-grid{display:grid;grid-template-columns:1fr 1fr;gap:12px;max-width:640px;width:100%;margin-top:24px}
+#s4 .risk{background:rgba(255,255,255,.02);border:1px solid rgba(239,159,39,.12);border-radius:10px;padding:16px;display:flex;gap:12px;align-items:flex-start}
+#s4 .risk-icon{font-size:22px;flex-shrink:0}
+#s4 .risk h4{font-size:13px;font-weight:500;color:#e8f2ec;margin-bottom:3px}
+#s4 .risk p{font-size:12px;color:#5a7a65;line-height:1.5}
+#s4 .risk-pct{display:inline-block;margin-top:6px;font-family:'Fraunces',serif;font-size:18px;font-weight:700;color:var(--amber)}
+
+/* ── SLIDE 5 — ESTUDANTE ─── */
+#s5 .barrier-list{display:flex;flex-direction:column;gap:10px;max-width:560px;width:100%;margin-top:24px}
+#s5 .barrier{display:flex;align-items:center;gap:14px;padding:13px 18px;background:rgba(55,138,221,.04);border:1px solid rgba(55,138,221,.1);border-radius:10px}
+#s5 .barrier-bar{height:4px;border-radius:2px;background:var(--blue);transition:width 1.5s cubic-bezier(.4,0,.2,1)}
+#s5 .barrier-lbl{font-size:13px;color:#7da889;flex:1}
+#s5 .barrier-pct{font-family:'Fraunces',serif;font-size:15px;font-weight:700;color:var(--blue);min-width:40px;text-align:right}
+#s5 .mentor-box{margin-top:20px;padding:14px 18px;background:rgba(55,138,221,.06);border:1px solid rgba(55,138,221,.15);border-radius:10px;font-size:13px;color:#7da889;display:flex;align-items:center;gap:10px;max-width:560px;width:100%}
+#s5 .mentor-tag{background:rgba(55,138,221,.12);color:var(--blue);font-size:10px;font-weight:500;padding:3px 9px;border-radius:20px;white-space:nowrap}
+
+/* ── SLIDE 6 — A VIRADA ─── */
+#s6 .big-num{font-family:'Fraunces',serif;font-size:clamp(80px,12vw,140px);font-weight:900;line-height:1;color:rgba(0,201,122,.12);position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);pointer-events:none;user-select:none;letter-spacing:-6px}
+#s6 .v-line{width:48px;height:3px;background:var(--teal);border-radius:2px;margin:20px auto;animation:lineW 1s .4s both}
+
+/* ── SLIDE 7 — COMO A PLATAFORMA RESOLVE ─── */
+#s7 .triple{display:flex;gap:14px;max-width:820px;width:100%;margin-top:28px}
+#s7 .t-col{flex:1;background:rgba(255,255,255,.02);border:1px solid rgba(255,255,255,.05);border-radius:14px;overflow:hidden}
+#s7 .t-head{padding:16px 18px 14px;border-bottom:1px solid rgba(255,255,255,.04)}
+#s7 .t-head-label{font-size:10px;font-weight:500;letter-spacing:.8px;text-transform:uppercase;margin-bottom:4px}
+#s7 .col-teal .t-head{background:rgba(0,201,122,.04)}.col-teal .t-head-label{color:var(--teal)}.col-teal .t-head-emoji+div{border-color:rgba(0,201,122,.15)}
+#s7 .col-amber .t-head{background:rgba(239,159,39,.04)}.col-amber .t-head-label{color:var(--amber)}
+#s7 .col-blue  .t-head{background:rgba(55,138,221,.04)}.col-blue .t-head-label{color:var(--blue)}
+#s7 .t-head-emoji{font-size:24px;display:block;margin-bottom:8px}
+#s7 .t-head-title{font-size:14px;font-weight:500;color:#e8f2ec;line-height:1.3}
+#s7 .t-body{padding:16px 18px;display:flex;flex-direction:column;gap:10px}
+#s7 .t-item{display:flex;gap:8px;font-size:12px;color:#5a7a65;line-height:1.5;align-items:flex-start}
+#s7 .t-check{font-size:13px;flex-shrink:0;margin-top:1px}
+#s7 .col-teal .t-check{color:var(--teal)}
+#s7 .col-amber .t-check{color:var(--amber)}
+#s7 .col-blue  .t-check{color:var(--blue)}
+
+/* ── SLIDE 8 — NÚMEROS ─── */
+#s8 .nums-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:16px;max-width:720px;width:100%;margin-top:28px}
+#s8 .num-card{border-radius:14px;padding:24px 20px;text-align:center;position:relative;overflow:hidden;border:1px solid}
+#s8 .num-card.teal{background:rgba(0,201,122,.05);border-color:rgba(0,201,122,.15)}
+#s8 .num-card.amber{background:rgba(239,159,39,.05);border-color:rgba(239,159,39,.15)}
+#s8 .num-card.blue{background:rgba(55,138,221,.05);border-color:rgba(55,138,221,.15)}
+#s8 .num-stripe{position:absolute;top:0;left:0;right:0;height:2px}
+#s8 .num-n{font-family:'Fraunces',serif;font-size:clamp(36px,5vw,56px);font-weight:900;line-height:1;margin-bottom:6px}
+#s8 .num-card.teal .num-n{color:var(--teal)}
+#s8 .num-card.amber .num-n{color:var(--amber)}
+#s8 .num-card.blue .num-n{color:var(--blue)}
+#s8 .num-who{font-size:10px;font-weight:500;letter-spacing:.8px;text-transform:uppercase;margin-bottom:8px}
+#s8 .num-card.teal .num-who{color:#0f6e56}
+#s8 .num-card.amber .num-who{color:#854f0b}
+#s8 .num-card.blue .num-who{color:#185fa5}
+#s8 .num-desc{font-size:12px;color:#5a7a65;line-height:1.5}
+
+/* ── SLIDE 9 — CTA ─── */
+#s9 .cta-wrap{text-align:center;max-width:700px;width:100%}
+#s9 .cta-badge{display:inline-flex;align-items:center;gap:8px;background:rgba(0,201,122,.08);border:1px solid rgba(0,201,122,.18);border-radius:30px;padding:6px 16px;font-size:11px;font-weight:500;letter-spacing:.8px;text-transform:uppercase;color:var(--teal);margin-bottom:22px}
+#s9 .badge-dot{width:6px;height:6px;border-radius:50%;background:var(--teal);animation:pulse 2s infinite}
+#s9 .cta-h{font-family:'Fraunces',serif;font-size:clamp(34px,5vw,62px);font-weight:900;line-height:1.02;letter-spacing:-2px;color:#e8f2ec;margin-bottom:12px}
+#s9 .cta-h em{font-style:italic;color:var(--teal)}
+#s9 .cta-p{font-size:clamp(14px,1.5vw,17px);color:#7da889;font-weight:300;line-height:1.65;margin-bottom:32px;max-width:520px;margin-left:auto;margin-right:auto}
+#s9 .perfis-row{display:flex;justify-content:center;gap:10px;margin-bottom:28px}
+#s9 .perfil-pill{display:flex;align-items:center;gap:7px;padding:8px 16px;border-radius:30px;font-size:12px;font-weight:500;border:1px solid}
+#s9 .pp-t{background:rgba(0,201,122,.06);border-color:rgba(0,201,122,.2);color:#5dcaa5}
+#s9 .pp-a{background:rgba(239,159,39,.06);border-color:rgba(239,159,39,.2);color:#ef9f27}
+#s9 .pp-b{background:rgba(55,138,221,.06);border-color:rgba(55,138,221,.2);color:#378add}
+#s9 .cta-btn{display:inline-flex;align-items:center;gap:11px;padding:17px 38px;background:var(--teal);color:#042c1a;border-radius:12px;font-size:15px;font-weight:500;font-family:'DM Sans',sans-serif;text-decoration:none;cursor:pointer;border:none;transition:all .2s}
+#s9 .cta-btn:hover{background:#00e88a;transform:translateY(-2px)}
+#s9 .cta-btn svg{width:16px;height:16px}
+#s9 .cta-meta{margin-top:18px;font-size:12px;color:#3d5c45}
+#s9 .cta-meta strong{color:#5dcaa5}
+#s9 .cta-url{margin-top:8px;font-family:'DM Mono',monospace;font-size:12px;color:#2d4038;letter-spacing:.4px}
+#s9 .cta-url span{color:#5dcaa5}
+</style>
+</head>
+<body>
+<div class="stage">
+  <div class="bg-grid"></div>
+  <div class="bg-orb orb-a"></div>
+  <div class="bg-orb orb-b"></div>
+  <div class="scan-line"></div>
+
+  <div class="brand-tag">
+    <div class="brand-mark"><svg viewBox="0 0 24 24"><path d="M12 2C9.24 2 7 4.24 7 7v1H5c-1.1 0-2 .9-2 2v10c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V10c0-1.1-.9-2-2-2h-2V7c0-2.76-2.24-5-5-5z"/></svg></div>
+    <div class="brand-name">Salvo<span>SST</span></div>
+  </div>
+  <div class="slide-counter" id="slideCounter">01 / 09</div>
+
+  <div class="slides">
+
+    <!-- S1: ABERTURA -->
+    <div class="slide active" id="s1">
+      <div class="bg-ring r1" style="position:absolute;width:420px;height:420px;border-radius:50%;border:1px solid rgba(0,201,122,.06);top:50%;left:50%;transform:translate(-50%,-50%)"></div>
+      <div class="bg-ring r2" style="position:absolute;width:640px;height:640px;border-radius:50%;border:1px solid rgba(0,201,122,.04);top:50%;left:50%;transform:translate(-50%,-50%)"></div>
+      <div class="bg-ring r3" style="position:absolute;width:860px;height:860px;border-radius:50%;border:1px solid rgba(0,201,122,.025);top:50%;left:50%;transform:translate(-50%,-50%)"></div>
+      <div style="text-align:center;max-width:780px;position:relative;z-index:2">
+        <div class="eyebrow au d1" style="justify-content:center">Saúde e Segurança do Trabalho · Brasil</div>
+        <div class="display au d2" style="font-size:clamp(34px,5.5vw,68px)">
+          O mercado de SST tem<br>um problema.<br><em>Você faz parte dele.</em><span style="display:inline-block;width:3px;height:.8em;background:var(--teal);margin-left:4px;vertical-align:middle;animation:blink 1s infinite"></span>
+        </div>
+        <div class="lead au d3" style="text-align:center;margin:0 auto">
+          Seja você <strong>profissional, empresa ou estudante</strong> — existe uma dor que te afeta agora. E existe uma solução chegando.
+        </div>
+      </div>
+    </div>
+
+    <!-- S2: OS TRÊS MUNDOS -->
+    <div class="slide" id="s2">
+      <div style="max-width:860px;width:100%">
+        <div class="eyebrow au d1" style="justify-content:center">Três perfis. Três realidades.</div>
+        <div class="display au d2" style="text-align:center;font-size:clamp(28px,3.5vw,46px);margin-bottom:6px">Qual é a <em>sua</em> dor?</div>
+        <div class="worlds au d3">
+          <div class="world teal">
+            <div class="world-stripe" style="background:var(--teal)"></div>
+            <span class="world-emoji">👷</span>
+            <div class="world-role">Profissional SST</div>
+            <div class="world-pain">"Tenho conhecimento, tenho registro, tenho anos de experiência. Mas dependendo de indicação pra sobreviver."</div>
+            <span class="world-tag">Falta de clientes</span>
+          </div>
+          <div class="world amber">
+            <div class="world-stripe" style="background:var(--amber)"></div>
+            <span class="world-emoji" style="animation-delay:.4s">🏭</span>
+            <div class="world-role">Empresa / RH</div>
+            <div class="world-pain">"Preciso dos documentos, mas não sei quem é confiável, quanto é justo pagar nem se vai entregar no prazo."</div>
+            <span class="world-tag">Falta de confiança</span>
+          </div>
+          <div class="world blue">
+            <div class="world-stripe" style="background:var(--blue)"></div>
+            <span class="world-emoji" style="animation-delay:.8s">🎓</span>
+            <div class="world-role">Estudante / Recém-formado</div>
+            <div class="world-pain">"Me formei, tenho o registro, quero trabalhar. Mas o mercado pede experiência que eu ainda não tenho."</div>
+            <span class="world-tag">Falta de oportunidade</span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- S3: PROFISSIONAL -->
+    <div class="slide" id="s3">
+      <div style="max-width:680px;width:100%">
+        <div class="eyebrow au d1">Profissional SST</div>
+        <div class="display au d2" style="font-size:clamp(30px,4vw,52px)">
+          Você sabe fazer.<br>Mas <em>ninguém sabe</em><br>que você existe.
+        </div>
+        <div class="lead au d3" style="font-size:14px">Captar cliente é a maior dificuldade — não a execução do serviço. Toda a sua renda depende de quem te indica.</div>
+        <div class="proof-row au d4">
+          <div class="proof"><span class="proof-x">✗</span> Sem canal de divulgação</div>
+          <div class="proof"><span class="proof-x">✗</span> Renda instável</div>
+          <div class="proof"><span class="proof-x">✗</span> Sem portfólio digital</div>
+          <div class="proof"><span class="proof-x">✗</span> Concorrência de preço baixo</div>
+          <div class="proof"><span class="proof-x">✗</span> Sem referência de preço justo</div>
+        </div>
+        <div class="dor-stat au d5">
+          <div class="dor-n">83%</div>
+          <div class="dor-txt">dos profissionais de SST apontam<br><strong style="color:#e8f2ec">captar novos clientes</strong> como maior dificuldade hoje.</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- S4: EMPRESA -->
+    <div class="slide" id="s4">
+      <div style="max-width:680px;width:100%">
+        <div class="eyebrow amber au d1">Empresa / RH</div>
+        <div class="display au d2" style="font-size:clamp(30px,4vw,52px)">
+          Você precisa.<br>Mas não sabe em<br><em class="amber">quem confiar.</em>
+        </div>
+        <div class="lead au d3" style="font-size:14px">Contratar SST é uma caixa preta: preços sem referência, qualidade incerta, prazo sem garantia.</div>
+        <div class="risk-grid au d4">
+          <div class="risk">
+            <div class="risk-icon">📋</div>
+            <div>
+              <h4>Documento reprovado</h4>
+              <p>PGR genérico sem visita ao local entregue como se fosse personalizado.</p>
+              <div class="risk-pct" style="color:var(--amber)">Já aconteceu com 68%</div>
+            </div>
+          </div>
+          <div class="risk">
+            <div class="risk-icon">💸</div>
+            <div>
+              <h4>Preço sem referência</h4>
+              <p>R$ 300 a R$ 8.000 pelo mesmo serviço. Impossível comparar.</p>
+              <div class="risk-pct" style="color:var(--amber)">Problema de 76%</div>
+            </div>
+          </div>
+          <div class="risk">
+            <div class="risk-icon">⏰</div>
+            <div>
+              <h4>Prazo não cumprido</h4>
+              <p>Pagou adiantado, aguardou semanas, fiscalização chegou antes.</p>
+              <div class="risk-pct" style="color:var(--amber)">Relatado por 62%</div>
+            </div>
+          </div>
+          <div class="risk">
+            <div class="risk-icon">🗺️</div>
+            <div>
+              <h4>Ninguém por perto</h4>
+              <p>Difícil encontrar profissional qualificado na própria região.</p>
+              <div class="risk-pct" style="color:var(--amber)">Citado por 45%</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- S5: ESTUDANTE -->
+    <div class="slide" id="s5">
+      <div style="max-width:660px;width:100%">
+        <div class="eyebrow blue au d1">Estudante / Recém-formado</div>
+        <div class="display au d2" style="font-size:clamp(30px,4vw,52px)">
+          Você está pronto.<br>O mercado ainda<br><em class="blue">não abriu a porta.</em>
+        </div>
+        <div class="lead au d3" style="font-size:14px;margin-bottom:16px">65% dos formados em SST estão fora da área. Não por falta de competência — por falta de acesso.</div>
+        <div class="barrier-list au d4">
+          <div class="barrier">
+            <div class="barrier-lbl">Falta de portfólio e experiência</div>
+            <div class="barrier-pct">88%</div>
+          </div>
+          <div class="barrier">
+            <div class="barrier-lbl">Não sabe como captar clientes</div>
+            <div class="barrier-pct">82%</div>
+          </div>
+          <div class="barrier">
+            <div class="barrier-lbl">Mercado exige experiência que não tem</div>
+            <div class="barrier-pct">76%</div>
+          </div>
+          <div class="barrier">
+            <div class="barrier-lbl">Insegurança técnica para atuar sozinho</div>
+            <div class="barrier-pct">71%</div>
+          </div>
+        </div>
+        <div class="mentor-box au d5">
+          <span style="font-size:20px">🧑‍🏫</span>
+          <div>E se houvesse um espaço para <strong style="color:#e8f2ec">pegar os primeiros projetos</strong> com mentoria de um sênior e construir portfólio real?</div>
+          <div class="mentor-tag">Em construção</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- S6: VIRADA -->
+    <div class="slide" id="s6">
+      <div class="big-num">3</div>
+      <div style="text-align:center;position:relative;z-index:2;max-width:680px">
+        <div class="eyebrow au d1" style="justify-content:center">A boa notícia</div>
+        <div class="display au d2" style="font-size:clamp(34px,5vw,62px);text-align:center">
+          Três problemas.<br><em>Uma solução.</em>
+        </div>
+        <div class="v-line"></div>
+        <div class="lead au d4" style="text-align:center;margin:0 auto;font-size:clamp(15px,1.5vw,18px)">
+          Um marketplace de SST que conecta quem <strong>sabe fazer</strong><br>
+          com quem <strong>precisa contratar</strong> — e abre portas para quem<br>
+          está <strong>começando</strong>. Tudo em um só lugar.
+        </div>
+      </div>
+    </div>
+
+    <!-- S7: O QUE A PLATAFORMA RESOLVE PRA CADA UM -->
+    <div class="slide" id="s7">
+      <div style="max-width:860px;width:100%">
+        <div class="eyebrow au d1" style="justify-content:center">O que a plataforma entrega</div>
+        <div class="display au d2" style="text-align:center;font-size:clamp(26px,3.5vw,44px);margin-bottom:6px">
+          Para cada perfil, <em>uma transformação.</em>
+        </div>
+        <div class="triple au d3">
+          <div class="t-col col-teal">
+            <div class="t-head">
+              <span class="t-head-emoji">👷</span>
+              <div class="t-head-label" style="color:var(--teal)">Profissional SST</div>
+              <div class="t-head-title">De invisível a reconhecido</div>
+            </div>
+            <div class="t-body">
+              <div class="t-item"><span class="t-check">✓</span><span>Perfil público com avaliações reais</span></div>
+              <div class="t-item"><span class="t-check">✓</span><span>Recebe demandas da sua região</span></div>
+              <div class="t-item"><span class="t-check">✓</span><span>Tabela de preços de referência</span></div>
+              <div class="t-item"><span class="t-check">✓</span><span>Gestão de prazos e contratos</span></div>
+              <div class="t-item"><span class="t-check">✓</span><span>Renda recorrente e previsível</span></div>
+            </div>
+          </div>
+          <div class="t-col col-amber">
+            <div class="t-head">
+              <span class="t-head-emoji">🏭</span>
+              <div class="t-head-label" style="color:var(--amber)">Empresa / RH</div>
+              <div class="t-head-title">De incerteza a controle</div>
+            </div>
+            <div class="t-body">
+              <div class="t-item"><span class="t-check">✓</span><span>Profissionais verificados perto de você</span></div>
+              <div class="t-item"><span class="t-check">✓</span><span>Compare orçamentos lado a lado</span></div>
+              <div class="t-item"><span class="t-check">✓</span><span>Prazo registrado e monitorado</span></div>
+              <div class="t-item"><span class="t-check">✓</span><span>Avaliações reais de quem contratou</span></div>
+              <div class="t-item"><span class="t-check">✓</span><span>Guia de documentos obrigatórios</span></div>
+            </div>
+          </div>
+          <div class="t-col col-blue">
+            <div class="t-head">
+              <span class="t-head-emoji">🎓</span>
+              <div class="t-head-label" style="color:var(--blue)">Estudante</div>
+              <div class="t-head-title">De formado a atuante</div>
+            </div>
+            <div class="t-body">
+              <div class="t-item"><span class="t-check">✓</span><span>Projetos reais para construir portfólio</span></div>
+              <div class="t-item"><span class="t-check">✓</span><span>Mentoria com profissional sênior</span></div>
+              <div class="t-item"><span class="t-check">✓</span><span>Templates de documentos validados</span></div>
+              <div class="t-item"><span class="t-check">✓</span><span>Avaliações que abrem o mercado</span></div>
+              <div class="t-item"><span class="t-check">✓</span><span>Tabela de preços para cobrar justo</span></div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- S8: NÚMEROS -->
+    <div class="slide" id="s8">
+      <div style="max-width:760px;width:100%;text-align:center">
+        <div class="eyebrow au d1" style="justify-content:center">Por que participar agora</div>
+        <div class="display au d2" style="font-size:clamp(28px,3.8vw,50px)">
+          Sua opinião <em>molda</em> o produto<br>antes de ser lançado.
+        </div>
+        <div class="nums-grid au d3">
+          <div class="num-card teal">
+            <div class="num-stripe" style="background:var(--teal)"></div>
+            <div class="num-who">Profissionais</div>
+            <div class="num-n">91%</div>
+            <div class="num-desc">disseram que usariam uma plataforma que garante acesso a clientes</div>
+          </div>
+          <div class="num-card amber">
+            <div class="num-stripe" style="background:var(--amber)"></div>
+            <div class="num-who">Empresas</div>
+            <div class="num-n">86%</div>
+            <div class="num-desc">usariam uma plataforma com profissionais verificados e prazos garantidos</div>
+          </div>
+          <div class="num-card blue">
+            <div class="num-stripe" style="background:var(--blue)"></div>
+            <div class="num-who">Estudantes</div>
+            <div class="num-n">76%</div>
+            <div class="num-desc">atuariam como autônomos se houvesse uma plataforma dando o primeiro passo</div>
+          </div>
+        </div>
+        <div class="au d5" style="margin-top:20px;font-size:13px;color:#3d5c45">
+          Dados coletados na pesquisa inicial · SST Marketplace · 2026
+        </div>
+      </div>
+    </div>
+
+    <!-- S9: CTA FINAL -->
+    <div class="slide" id="s9">
+      <div class="cta-wrap">
+        <div class="cta-badge au d1"><div class="badge-dot"></div>Pesquisa aberta agora</div>
+        <div class="cta-h au d2">Qual é o seu perfil?<br><em>Responda em 5 minutos.</em></div>
+        <div class="cta-p au d3">
+          Sua experiência vai definir o que a plataforma vai ter.<br>
+          Profissionais, empresas e estudantes — todos têm voz aqui.
+        </div>
+        <div class="perfis-row au d4">
+          <div class="perfil-pill pp-t">👷 Profissional SST</div>
+          <div class="perfil-pill pp-a">🏭 Empresa / RH</div>
+          <div class="perfil-pill pp-b">🎓 Estudante</div>
+        </div>
+        <a class="cta-btn as d5" href="https://conectasst.github.io/salvo/" target="_blank">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M9 18l6-6-6-6"/></svg>
+          Participar da pesquisa
+        </a>
+        <div class="cta-meta au d6"><strong>5 minutos</strong> · 100% anônimo · gratuito · sem cadastro</div>
+        <div class="cta-url au d7"><span>conectasst.github.io</span>/salvo</div>
+      </div>
+    </div>
+
+  </div><!-- /.slides -->
+
+  <div class="progress-wrap"><div class="progress-fill" id="progressFill"></div></div>
+  <div class="dots" id="dotsWrap"></div>
+  <div class="controls">
+    <div class="ctrl-btn" id="btnPlay" onclick="togglePlay()" title="Play/Pause">▶</div>
+    <div class="ctrl-btn" onclick="prevSlide()" title="Anterior">‹</div>
+    <div class="ctrl-btn" onclick="nextSlide()" title="Próximo">›</div>
+  </div>
+
+</div>
+
+<script>
+var TOTAL = 9;
+var DURATIONS = [5,7,7,7,8,5,8,7,10];
+var current = 0, playing = true, timer = null;
+var slides = document.querySelectorAll('.slide');
+var counter = document.getElementById('slideCounter');
+var fill = document.getElementById('progressFill');
+var dotsWrap = document.getElementById('dotsWrap');
+var btnPlay = document.getElementById('btnPlay');
+
+for(var i=0;i<TOTAL;i++){
+  var d=document.createElement('div');
+  d.className='dot'+(i===0?' active':'');
+  d.setAttribute('data-i',i);
+  d.addEventListener('click',function(){goTo(+this.getAttribute('data-i'));});
+  dotsWrap.appendChild(d);
+}
+
+function updateDots(){document.querySelectorAll('.dot').forEach(function(d,i){d.classList.toggle('active',i===current);})}
+function updateCounter(){counter.textContent=String(current+1).padStart(2,'0')+' / '+String(TOTAL).padStart(2,'0')}
+
+function replayAnims(el){
+  el.querySelectorAll('.au,.al,.ar,.as').forEach(function(e){
+    e.style.animation='none';e.offsetHeight;e.style.animation='';
+  });
+}
+
+function startProgress(){
+  fill.style.transition='none';fill.style.width='0%';fill.offsetHeight;
+  var dur=DURATIONS[current]*1000;
+  fill.style.transition='width '+dur+'ms linear';fill.style.width='100%';
+}
+
+function stopProgress(){
+  var c=parseFloat(getComputedStyle(fill).width);
+  var t=fill.parentElement.offsetWidth;
+  fill.style.transition='none';fill.style.width=(c/t*100)+'%';
+}
+
+function goTo(i){
+  slides[current].classList.remove('active');
+  current=(i+TOTAL)%TOTAL;
+  slides[current].classList.add('active');
+  replayAnims(slides[current]);
+  updateDots();updateCounter();
+  clearTimeout(timer);
+  if(playing){startProgress();scheduleNext();}
+}
+
+function scheduleNext(){
+  clearTimeout(timer);
+  timer=setTimeout(function(){
+    if(current<TOTAL-1){goTo(current+1);}
+    else{playing=false;btnPlay.textContent='▶';fill.style.width='100%';}
+  },DURATIONS[current]*1000);
+}
+
+function nextSlide(){goTo(current+1);}
+function prevSlide(){goTo(current-1);}
+
+function togglePlay(){
+  playing=!playing;
+  btnPlay.textContent=playing?'⏸':'▶';
+  if(playing){startProgress();scheduleNext();}else{clearTimeout(timer);stopProgress();}
+}
+
+document.addEventListener('keydown',function(e){
+  if(e.key==='ArrowRight'||e.key===' ')nextSlide();
+  if(e.key==='ArrowLeft')prevSlide();
+  if(e.key==='p'||e.key==='P')togglePlay();
+});
+
+btnPlay.textContent='⏸';
+startProgress();scheduleNext();
+</script>
+</body>
+</html>
