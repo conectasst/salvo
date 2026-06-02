@@ -1,0 +1,327 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>SST Marketplace · Para Profissionais SST</title>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,300;0,9..144,700;0,9..144,900;1,9..144,400&family=DM+Sans:wght@300;400;500;600&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+html,body{width:100%;height:100%;overflow:hidden;background:#000}
+body{font-family:'DM Sans',sans-serif}
+:root{--g:#00c97a;--gd:rgba(0,201,122,.1);--gm:rgba(0,201,122,.22);--bg:#060d08}
+.stage{width:100vw;height:100vh;position:relative;overflow:hidden;background:var(--bg)}
+.bg-grid{position:absolute;inset:0;background-image:linear-gradient(rgba(0,201,122,.04) 1px,transparent 1px),linear-gradient(90deg,rgba(0,201,122,.04) 1px,transparent 1px);background-size:48px 48px}
+.orb{position:absolute;border-radius:50%;pointer-events:none}
+.oa{width:480px;height:480px;background:#0a6644;opacity:.15;top:-140px;left:-80px}
+.ob{width:320px;height:320px;background:#00c97a;opacity:.06;bottom:-60px;right:-60px}
+.scan{position:absolute;left:0;right:0;height:1px;background:linear-gradient(90deg,transparent,rgba(0,201,122,.35),transparent);z-index:50;animation:sc 5s linear infinite}
+@keyframes sc{0%{top:-1px;opacity:0}8%{opacity:1}92%{opacity:.4}100%{top:100%;opacity:0}}
+.brand{position:absolute;top:22px;left:28px;display:flex;align-items:center;gap:8px;z-index:100}
+.bm{width:28px;height:28px;border-radius:7px;background:var(--g);display:flex;align-items:center;justify-content:center}
+.bm svg{width:14px;height:14px;fill:#042c1a}
+.bn{font-family:'Fraunces',serif;font-size:15px;font-weight:700;color:rgba(255,255,255,.35);letter-spacing:-.3px}
+.bn span{color:var(--g)}
+.pw{position:absolute;bottom:0;left:0;right:0;height:3px;background:rgba(255,255,255,.05);z-index:100}
+.pf{height:100%;background:var(--g);width:0%;transition:width linear}
+.dots{position:absolute;bottom:18px;left:50%;transform:translateX(-50%);display:flex;gap:6px;z-index:100}
+.dot{width:6px;height:6px;border-radius:50%;background:rgba(255,255,255,.12);transition:all .3s;cursor:pointer}
+.dot.active{background:var(--g);transform:scale(1.4)}
+.ctrls{position:absolute;bottom:12px;right:20px;display:flex;gap:7px;z-index:100}
+.cb{width:32px;height:32px;border-radius:7px;background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.07);color:rgba(255,255,255,.35);display:flex;align-items:center;justify-content:center;cursor:pointer;font-size:13px;transition:all .15s}
+.cb:hover{background:rgba(0,201,122,.1);border-color:rgba(0,201,122,.2);color:var(--g)}
+.sc{position:absolute;bottom:16px;left:20px;font-family:'DM Mono',monospace;font-size:11px;color:rgba(255,255,255,.12);z-index:100;letter-spacing:.5px}
+.slides{position:absolute;inset:0}
+.slide{position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center;padding:56px 72px;opacity:0;pointer-events:none;transition:opacity .5s}
+.slide.active{opacity:1;pointer-events:all}
+@keyframes fu{from{opacity:0;transform:translateY(26px)}to{opacity:1;transform:translateY(0)}}
+@keyframes fl{from{opacity:0;transform:translateX(-22px)}to{opacity:1;transform:translateX(0)}}
+@keyframes fr{from{opacity:0;transform:translateX(22px)}to{opacity:1;transform:translateX(0)}}
+@keyframes fs{from{opacity:0;transform:scale(.84)}to{opacity:1;transform:scale(1)}}
+@keyframes lw{from{width:0}to{width:100%}}
+@keyframes pu{0%,100%{opacity:1}50%{opacity:.4}}
+@keyframes bl{0%,100%{opacity:1}50%{opacity:0}}
+@keyframes ft{0%,100%{transform:translateY(0)}50%{transform:translateY(-7px)}}
+.au{animation:fu .65s cubic-bezier(.2,0,.2,1) both}
+.al{animation:fl .65s cubic-bezier(.2,0,.2,1) both}
+.ar{animation:fr .65s cubic-bezier(.2,0,.2,1) both}
+.as2{animation:fs .55s cubic-bezier(.34,1.2,.64,1) both}
+.d1{animation-delay:.1s}.d2{animation-delay:.28s}.d3{animation-delay:.46s}.d4{animation-delay:.64s}
+.d5{animation-delay:.82s}.d6{animation-delay:1s}.d7{animation-delay:1.18s}.d8{animation-delay:1.36s}
+.ey{font-size:11px;font-weight:500;letter-spacing:1.4px;text-transform:uppercase;color:var(--g);display:flex;align-items:center;gap:9px;margin-bottom:18px}
+.ey::before{content:'';width:24px;height:1px;background:var(--g)}
+.di{font-family:'Fraunces',serif;font-size:clamp(34px,5vw,64px);font-weight:900;line-height:1.02;letter-spacing:-2px;color:#e8f2ec;margin-bottom:14px}
+.di em{font-style:italic;color:var(--g)}
+.ld{font-size:clamp(14px,1.6vw,19px);font-weight:300;color:#7da889;line-height:1.65;max-width:580px}
+.ld strong{color:#e8f2ec;font-weight:500}
+
+/* S1 */
+#s1 .cr{position:absolute;border-radius:50%;border:1px solid rgba(0,201,122,.06)}
+
+/* S2 */
+#s2 .src-card{max-width:640px;width:100%;background:rgba(255,255,255,.02);border:1px solid rgba(0,201,122,.12);border-radius:16px;padding:28px 32px;position:relative;overflow:hidden}
+#s2 .src-card::before{content:'';position:absolute;top:0;left:0;right:0;height:2px;background:var(--g)}
+#s2 .src-pct{font-family:'Fraunces',serif;font-size:clamp(56px,8vw,96px);font-weight:900;color:var(--g);line-height:1;margin-bottom:10px}
+#s2 .src-label{font-size:16px;color:#e8f2ec;font-weight:500;margin-bottom:8px}
+#s2 .src-sub{font-size:13px;color:#5a7a65;line-height:1.6}
+#s2 .src-pills{display:flex;flex-wrap:wrap;gap:8px;margin-top:20px}
+#s2 .pill{padding:6px 14px;border-radius:20px;font-size:12px;font-weight:500;background:rgba(0,201,122,.07);border:1px solid rgba(0,201,122,.15);color:#5dcaa5}
+
+/* S3 */
+#s3 .price-scene{display:flex;align-items:flex-end;gap:0;max-width:580px;margin:24px 0;border-bottom:1px solid rgba(255,255,255,.06)}
+#s3 .pb{display:flex;flex-direction:column;align-items:center;gap:6px;flex:1;padding:0 6px 0}
+#s3 .pb-bar{width:100%;border-radius:5px 5px 0 0}
+#s3 .pb-val{font-family:'Fraunces',serif;font-size:13px;font-weight:700;color:#e8f2ec}
+#s3 .pb-lbl{font-size:10px;color:#3d5c45;text-align:center;padding-bottom:10px;line-height:1.4}
+#s3 .pb.you .pb-bar{background:rgba(224,92,74,.5)}
+#s3 .pb.you .pb-val{color:#f0776c}
+#s3 .warn-box{padding:14px 18px;background:rgba(224,92,74,.06);border:1px solid rgba(224,92,74,.15);border-radius:10px;font-size:13px;color:#7da889;max-width:580px;line-height:1.6}
+#s3 .warn-box strong{color:#f0776c}
+
+/* S4 */
+#s4 .months{display:flex;gap:6px;max-width:640px;width:100%;margin:24px 0;align-items:flex-end}
+#s4 .month{flex:1;display:flex;flex-direction:column;align-items:center;gap:4px}
+#s4 .month-bar{width:100%;border-radius:5px 5px 0 0;min-height:6px}
+#s4 .month-lbl{font-size:9px;color:#3d5c45;font-family:'DM Mono',monospace}
+#s4 .month-val{font-size:10px;font-weight:500}
+#s4 .avg-line{border-top:1px dashed rgba(0,201,122,.3);padding-top:12px;font-size:13px;color:#5a7a65;max-width:640px;width:100%}
+#s4 .avg-line strong{color:var(--g)}
+
+/* S5 */
+#s5 .opp-grid{display:grid;grid-template-columns:1fr 1fr;gap:12px;max-width:620px;width:100%;margin-top:22px}
+#s5 .opp{background:rgba(0,201,122,.04);border:1px solid rgba(0,201,122,.1);border-radius:10px;padding:16px 18px;display:flex;gap:12px}
+#s5 .opp-ico{font-size:22px;flex-shrink:0}
+#s5 .opp h4{font-size:13px;font-weight:500;color:#e8f2ec;margin-bottom:3px}
+#s5 .opp p{font-size:12px;color:#5a7a65;line-height:1.5}
+
+/* S6 */
+#s6 .vline{width:48px;height:3px;background:var(--g);border-radius:2px;margin:22px auto;animation:lw 1s .5s both}
+
+/* S7 */
+#s7 .steps{display:flex;gap:0;max-width:800px;width:100%;margin-top:28px;align-items:stretch}
+#s7 .step{flex:1;text-align:center;padding:20px 14px;position:relative}
+#s7 .step:not(:last-child)::after{content:'›';position:absolute;right:-8px;top:44px;font-size:20px;color:rgba(0,201,122,.3)}
+#s7 .sn{width:42px;height:42px;border-radius:11px;background:var(--gd);border:1px solid var(--gm);display:flex;align-items:center;justify-content:center;margin:0 auto 10px;font-family:'Fraunces',serif;font-size:19px;font-weight:800;color:var(--g)}
+#s7 .si{font-size:20px;margin-bottom:6px}
+#s7 .step h4{font-size:13px;font-weight:500;color:#e8f2ec;margin-bottom:4px}
+#s7 .step p{font-size:11px;color:#3d5c45;line-height:1.5}
+
+/* S8 */
+#s8 .qt{max-width:620px;width:100%;background:rgba(255,255,255,.02);border:1px solid rgba(255,255,255,.06);border-radius:16px;padding:28px 32px;text-align:center;position:relative}
+#s8 .qm{font-family:'Fraunces',serif;font-size:72px;font-weight:900;color:rgba(0,201,122,.1);line-height:1;position:absolute;top:-8px;left:20px}
+#s8 .qt-txt{font-family:'Fraunces',serif;font-size:clamp(17px,2.2vw,24px);font-style:italic;color:#e8f2ec;line-height:1.4;margin-bottom:16px}
+#s8 .qt-txt strong{color:var(--g);font-style:normal}
+#s8 .qt-who{font-size:12px;color:#5a7a65}
+#s8 .qt-stats{display:flex;gap:0;margin-top:24px;border:1px solid rgba(0,201,122,.1);border-radius:10px;overflow:hidden}
+#s8 .qs{flex:1;padding:14px;text-align:center;border-right:1px solid rgba(0,201,122,.08)}
+#s8 .qs:last-child{border:none}
+#s8 .qs-n{font-family:'Fraunces',serif;font-size:26px;font-weight:800;color:var(--g)}
+#s8 .qs-l{font-size:11px;color:#3d5c45;margin-top:2px}
+
+/* S9 */
+#s9 .cw{text-align:center;max-width:680px;width:100%}
+#s9 .cbg{display:inline-flex;align-items:center;gap:8px;background:var(--gd);border:1px solid rgba(0,201,122,.2);border-radius:30px;padding:6px 16px;font-size:11px;font-weight:500;letter-spacing:.8px;text-transform:uppercase;color:var(--g);margin-bottom:22px}
+#s9 .cbd{width:6px;height:6px;border-radius:50%;background:var(--g);animation:pu 2s infinite}
+#s9 .ch{font-family:'Fraunces',serif;font-size:clamp(32px,5vw,60px);font-weight:900;line-height:1.02;letter-spacing:-2px;color:#e8f2ec;margin-bottom:12px}
+#s9 .ch em{font-style:italic;color:var(--g)}
+#s9 .cp{font-size:clamp(14px,1.5vw,17px);color:#7da889;font-weight:300;line-height:1.65;margin-bottom:30px;max-width:480px;margin-left:auto;margin-right:auto}
+#s9 .cbtn{display:inline-flex;align-items:center;gap:11px;padding:16px 36px;background:var(--g);color:#042c1a;border-radius:12px;font-size:15px;font-weight:500;font-family:'DM Sans',sans-serif;text-decoration:none;cursor:pointer;border:none;transition:all .2s}
+#s9 .cbtn:hover{background:#00e88a;transform:translateY(-2px)}
+#s9 .cbtn svg{width:16px;height:16px}
+#s9 .cm{margin-top:16px;font-size:12px;color:#3d5c45}
+#s9 .cm strong{color:#5dcaa5}
+#s9 .cu{margin-top:8px;font-family:'DM Mono',monospace;font-size:12px;color:#2d4038;letter-spacing:.4px}
+#s9 .cu span{color:#5dcaa5}
+</style>
+</head>
+<body>
+<div class="stage">
+  <div class="bg-grid"></div>
+  <div class="orb oa"></div><div class="orb ob"></div>
+  <div class="scan"></div>
+  <div class="brand"><div class="bm"><svg viewBox="0 0 24 24"><path d="M12 2C9.24 2 7 4.24 7 7v1H5c-1.1 0-2 .9-2 2v10c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V10c0-1.1-.9-2-2-2h-2V7c0-2.76-2.24-5-5-5z"/></svg></div><div class="bn">Salvo<span>SST</span></div></div>
+  <div class="sc" id="sc">01 / 09</div>
+  <div class="slides">
+
+    <!-- S1 ABERTURA -->
+    <div class="slide active" id="s1">
+      <div class="cr" style="width:400px;height:400px;top:50%;left:50%;transform:translate(-50%,-50%)"></div>
+      <div class="cr" style="width:620px;height:620px;top:50%;left:50%;transform:translate(-50%,-50%)"></div>
+      <div class="cr" style="width:840px;height:840px;top:50%;left:50%;transform:translate(-50%,-50%)"></div>
+      <div style="text-align:center;max-width:760px;position:relative;z-index:2">
+        <div class="ey au d1" style="justify-content:center">Para profissionais de SST</div>
+        <div class="di au d2" style="font-size:clamp(32px,5.5vw,66px)">Você domina SST.<br>O problema é que<br><em>poucos sabem disso.</em><span style="display:inline-block;width:3px;height:.82em;background:var(--g);margin-left:4px;vertical-align:middle;animation:bl 1s infinite"></span></div>
+        <div class="ld au d3" style="text-align:center;margin:0 auto">Seu conhecimento é real. Sua capacidade é comprovada.<br>Mas <strong>a maioria dos seus clientes vem de indicação</strong> — e isso tem um custo alto.</div>
+      </div>
+    </div>
+
+    <!-- S2 DOR 1: INDICAÇÃO -->
+    <div class="slide" id="s2">
+      <div style="max-width:680px;width:100%">
+        <div class="ey au d1">Problema #1</div>
+        <div class="di au d2" style="font-size:clamp(28px,4vw,52px)">100% da sua renda<br>depende de <em>quem te indica.</em></div>
+        <div class="src-card au d3">
+          <div class="src-pct">83%</div>
+          <div class="src-label">dos profissionais de SST autônomos apontam captar clientes como maior dificuldade</div>
+          <div class="src-sub">Você é refém da agenda de quem te conhece. Se um cliente para de te indicar, sua renda para junto. Não existe previsibilidade, não existe crescimento planejado.</div>
+          <div class="src-pills">
+            <span class="pill">Sem canal próprio de captação</span>
+            <span class="pill">Sem portfólio digital</span>
+            <span class="pill">Sem presença de mercado</span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- S3 DOR 2: GUERRA DE PREÇO -->
+    <div class="slide" id="s3">
+      <div style="max-width:660px;width:100%">
+        <div class="ey au d1">Problema #2</div>
+        <div class="di au d2" style="font-size:clamp(28px,4vw,50px)">Você perde contratos<br>para quem cobra<br><em>R$ 200 pelo PGR.</em></div>
+        <div class="ld au d3" style="font-size:14px;margin-bottom:20px">Sem referência de mercado, a empresa escolhe pelo preço. Seu trabalho de qualidade compete com quem entrega documento genérico.</div>
+        <div class="price-scene au d4">
+          <div class="pb">
+            <div class="pb-bar" style="height:30px;background:rgba(0,201,122,.25)"></div>
+            <div class="pb-val" style="color:var(--g)">R$200</div>
+            <div class="pb-lbl">Sem registro<br>sem visita</div>
+          </div>
+          <div class="pb">
+            <div class="pb-bar" style="height:55px;background:rgba(239,159,39,.3)"></div>
+            <div class="pb-val" style="color:#ef9f27">R$800</div>
+            <div class="pb-lbl">Técnico<br>iniciante</div>
+          </div>
+          <div class="pb you">
+            <div class="pb-bar" style="height:90px"></div>
+            <div class="pb-val">Você</div>
+            <div class="pb-lbl">Técnico sênior<br>qualificado</div>
+          </div>
+          <div class="pb">
+            <div class="pb-bar" style="height:130px;background:rgba(55,138,221,.3)"></div>
+            <div class="pb-val" style="color:#378add">R$4k+</div>
+            <div class="pb-lbl">Consultoria<br>grande porte</div>
+          </div>
+        </div>
+        <div class="warn-box au d5">Sem avaliações visíveis e histórico público, a empresa não consegue diferenciar <strong>quem é bom de quem é barato</strong>. E escolhe o barato.</div>
+      </div>
+    </div>
+
+    <!-- S4 DOR 3: RENDA IRREGULAR -->
+    <div class="slide" id="s4">
+      <div style="max-width:660px;width:100%">
+        <div class="ey au d1">Problema #3</div>
+        <div class="di au d2" style="font-size:clamp(28px,4vw,50px)">Meses cheios.<br>Meses <em>sem nada.</em><br>Sem previsão.</div>
+        <div class="ld au d3" style="font-size:14px;margin-bottom:22px">A renda de autônomo em SST é instável por definição — quando depende só de indicação, você não controla o fluxo.</div>
+        <div class="months au d4">
+          <div class="month"><div class="month-bar" style="height:80px;background:rgba(0,201,122,.35)"></div><div class="month-lbl">Jan</div><div class="month-val" style="color:var(--g)">+</div></div>
+          <div class="month"><div class="month-bar" style="height:24px;background:rgba(224,92,74,.4)"></div><div class="month-lbl">Fev</div><div class="month-val" style="color:#f0776c">−</div></div>
+          <div class="month"><div class="month-bar" style="height:16px;background:rgba(224,92,74,.5)"></div><div class="month-lbl">Mar</div><div class="month-val" style="color:#f0776c">−</div></div>
+          <div class="month"><div class="month-bar" style="height:100px;background:rgba(0,201,122,.35)"></div><div class="month-lbl">Abr</div><div class="month-val" style="color:var(--g)">+</div></div>
+          <div class="month"><div class="month-bar" style="height:90px;background:rgba(0,201,122,.3)"></div><div class="month-lbl">Mai</div><div class="month-val" style="color:var(--g)">+</div></div>
+          <div class="month"><div class="month-bar" style="height:20px;background:rgba(224,92,74,.4)"></div><div class="month-lbl">Jun</div><div class="month-val" style="color:#f0776c">−</div></div>
+          <div class="month"><div class="month-bar" style="height:12px;background:rgba(224,92,74,.5)"></div><div class="month-lbl">Jul</div><div class="month-val" style="color:#f0776c">−</div></div>
+          <div class="month"><div class="month-bar" style="height:110px;background:rgba(0,201,122,.4)"></div><div class="month-lbl">Ago</div><div class="month-val" style="color:var(--g)">+</div></div>
+        </div>
+        <div class="avg-line au d5">Quem controla o canal de captação controla a renda. <strong>Hoje, quem controla é a indicação — não você.</strong></div>
+      </div>
+    </div>
+
+    <!-- S5 VIRADA -->
+    <div class="slide" id="s6" style="display:flex;flex-direction:column;align-items:center;justify-content:center">
+      <div style="text-align:center;max-width:680px">
+        <div class="ey au d1" style="justify-content:center">A mudança</div>
+        <div class="di au d2" style="font-size:clamp(32px,5vw,62px);text-align:center">E se as empresas<br>viessem <em>até você?</em></div>
+        <div class="vline"></div>
+        <div class="ld au d4" style="text-align:center;margin:0 auto;font-size:clamp(14px,1.5vw,18px)">Uma plataforma onde empresas publicam o que precisam — PGR, PCMSO, LTCAT, laudos, treinamentos — e você envia seu orçamento. <strong>Sem precisar correr atrás.</strong></div>
+      </div>
+    </div>
+
+    <!-- S6 SOLUÇÃO -->
+    <div class="slide" id="s5">
+      <div style="max-width:700px;width:100%">
+        <div class="ey au d1">O que você ganha</div>
+        <div class="di au d2" style="font-size:clamp(28px,3.8vw,48px)">Visibilidade, clientes<br>e <em>renda recorrente.</em></div>
+        <div class="opp-grid au d3">
+          <div class="opp"><div class="opp-ico">📍</div><div><h4>Demandas na sua região</h4><p>Receba alertas de empresas que precisam do seu serviço perto de você.</p></div></div>
+          <div class="opp"><div class="opp-ico">⭐</div><div><h4>Portfólio com avaliações reais</h4><p>Histórico público de entregas. Suas avaliações valem mais que qualquer currículo.</p></div></div>
+          <div class="opp"><div class="opp-ico">💰</div><div><h4>Tabela de preços de referência</h4><p>Saiba o que o mercado paga. Cobre o justo — nem abaixo, nem acima.</p></div></div>
+          <div class="opp"><div class="opp-ico">⏱️</div><div><h4>Gestão de prazos integrada</h4><p>Contratos e prazos registrados. Nunca mais perder entrega por desorganização.</p></div></div>
+          <div class="opp"><div class="opp-ico">🧑‍🏫</div><div><h4>Mentoria para recém-formados</h4><p>Oriente profissionais iniciantes e seja remunerado por isso.</p></div></div>
+          <div class="opp"><div class="opp-ico">📈</div><div><h4>Renda previsível e crescente</h4><p>Fluxo constante de leads. Você decide quantos projetos aceitar por mês.</p></div></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- S7 COMO FUNCIONA -->
+    <div class="slide" id="s7">
+      <div style="text-align:center;max-width:820px;width:100%">
+        <div class="ey au d1" style="justify-content:center">Simples assim</div>
+        <div class="di au d2" style="font-size:clamp(26px,3.5vw,46px);margin-bottom:6px">Como você passa a <em>receber clientes.</em></div>
+        <div class="steps au d3">
+          <div class="step"><div class="sn">1</div><div class="si">👤</div><h4>Cria seu perfil</h4><p>Especialidades, região, registro e formação</p></div>
+          <div class="step"><div class="sn">2</div><div class="si">🔔</div><h4>Recebe demandas</h4><p>Alertas de empresas que precisam do seu serviço</p></div>
+          <div class="step"><div class="sn">3</div><div class="si">📝</div><h4>Envia proposta</h4><p>Valor, prazo e sua metodologia</p></div>
+          <div class="step"><div class="sn">4</div><div class="si">🤝</div><h4>É escolhido</h4><p>Prazo e combinados registrados na plataforma</p></div>
+          <div class="step"><div class="sn">5</div><div class="si">⭐</div><h4>Acumula reputação</h4><p>Cada avaliação constrói seu portfólio público</p></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- S8 PROVA SOCIAL -->
+    <div class="slide" id="s8">
+      <div style="max-width:640px;width:100%">
+        <div class="ey au d1" style="justify-content:center">Quem já sente essa dor</div>
+        <div class="qt as2 d2">
+          <div class="qm">"</div>
+          <div class="qt-txt">Trabalho há 6 anos como autônomo. Quando chega um mês ruim de indicação, <strong>não tenho de onde tirar cliente</strong>. A renda simplesmente não vem.</div>
+          <div class="qt-who">— Técnico de Segurança do Trabalho, Bahia · 6 anos de atuação</div>
+        </div>
+        <div class="qt-stats au d4">
+          <div class="qs"><div class="qs-n">83%</div><div class="qs-l">têm captar clientes como maior dificuldade</div></div>
+          <div class="qs"><div class="qs-n">71%</div><div class="qs-l">não sabem quanto cobrar pelos serviços</div></div>
+          <div class="qs"><div class="qs-n">91%</div><div class="qs-l">usariam uma plataforma que garante acesso a clientes</div></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- S9 CTA -->
+    <div class="slide" id="s9">
+      <div class="cw">
+        <div class="cbg au d1"><div class="cbd"></div>Pesquisa aberta para profissionais</div>
+        <div class="ch au d2">Sua experiência vai<br>construir <em>a plataforma.</em></div>
+        <div class="cp au d3">Responda nossa pesquisa em 5 minutos. Você ajuda a moldar um marketplace que vai trabalhar por você — trazendo clientes enquanto você executa.</div>
+        <a class="cbtn as2 d4" href="https://conectasst.github.io/salvo/" target="_blank">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M9 18l6-6-6-6"/></svg>
+          Responder a pesquisa agora
+        </a>
+        <div class="cm au d5"><strong>5 minutos</strong> · 100% anônimo · gratuito · sem cadastro</div>
+        <div class="cu au d6"><span>conectasst.github.io</span>/salvo</div>
+      </div>
+    </div>
+
+  </div>
+  <div class="pw"><div class="pf" id="pf"></div></div>
+  <div class="dots" id="dw"></div>
+  <div class="ctrls">
+    <div class="cb" id="bp" onclick="tp()" title="Play/Pause">▶</div>
+    <div class="cb" onclick="prev()">‹</div>
+    <div class="cb" onclick="next()">›</div>
+  </div>
+</div>
+<script>
+var T=9,D=[5,6,7,7,5,7,7,6,9],cur=0,play=true,tmr=null;
+var sls=document.querySelectorAll('.slide'),cnt=document.getElementById('sc'),pf=document.getElementById('pf'),dw=document.getElementById('dw'),bp=document.getElementById('bp');
+for(var i=0;i<T;i++){var d=document.createElement('div');d.className='dot'+(i===0?' active':'');d.setAttribute('data-i',i);d.addEventListener('click',function(){gt(+this.getAttribute('data-i'));});dw.appendChild(d);}
+function ud(){document.querySelectorAll('.dot').forEach(function(d,i){d.classList.toggle('active',i===cur);})}
+function uc(){cnt.textContent=String(cur+1).padStart(2,'0')+' / '+String(T).padStart(2,'0')}
+function ra(el){el.querySelectorAll('.au,.al,.ar,.as2').forEach(function(e){e.style.animation='none';e.offsetHeight;e.style.animation='';})}
+function sp(){pf.style.transition='none';pf.style.width='0%';pf.offsetHeight;var d=D[cur]*1000;pf.style.transition='width '+d+'ms linear';pf.style.width='100%';}
+function xp(){var c=parseFloat(getComputedStyle(pf).width),t=pf.parentElement.offsetWidth;pf.style.transition='none';pf.style.width=(c/t*100)+'%';}
+function gt(i){sls[cur].classList.remove('active');cur=(i+T)%T;sls[cur].classList.add('active');ra(sls[cur]);ud();uc();clearTimeout(tmr);if(play){sp();sn();}}
+function sn(){clearTimeout(tmr);tmr=setTimeout(function(){if(cur<T-1){gt(cur+1);}else{play=false;bp.textContent='▶';pf.style.width='100%';}},D[cur]*1000);}
+function next(){gt(cur+1);}function prev(){gt(cur-1);}
+function tp(){play=!play;bp.textContent=play?'⏸':'▶';if(play){sp();sn();}else{clearTimeout(tmr);xp();}}
+document.addEventListener('keydown',function(e){if(e.key==='ArrowRight'||e.key===' ')next();if(e.key==='ArrowLeft')prev();if(e.key==='p'||e.key==='P')tp();});
+bp.textContent='⏸';sp();sn();
+</script>
+</body>
+</html>
