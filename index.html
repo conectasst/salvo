@@ -95,6 +95,115 @@ header p{font-size:14px;color:var(--muted);max-width:480px;margin:0 auto 18px}
 .btn-copy-small:hover{background:var(--teal);color:#fff}
 footer{margin-top:28px;text-align:center;font-size:12px;color:var(--muted2)}
 @media(max-width:520px){.profile-grid{grid-template-columns:1fr}.card-body{padding:20px}.card-nav{padding:14px 20px}}
+
+/* ── MODAL LISTA DE ESPERA ─────────────────────────────────── */
+.modal-overlay{
+  position:fixed;inset:0;z-index:999;
+  background:rgba(4,20,10,.85);
+  backdrop-filter:blur(6px);
+  display:flex;align-items:center;justify-content:center;
+  padding:20px;
+  opacity:0;pointer-events:none;
+  transition:opacity .35s ease;
+}
+.modal-overlay.open{opacity:1;pointer-events:all}
+.modal-box{
+  background:var(--surface);
+  border:1px solid var(--border);
+  border-radius:20px;
+  padding:36px 32px;
+  max-width:440px;width:100%;
+  position:relative;
+  transform:translateY(28px) scale(.97);
+  transition:transform .4s cubic-bezier(.34,1.1,.64,1);
+  overflow:hidden;
+}
+.modal-overlay.open .modal-box{transform:translateY(0) scale(1)}
+.modal-box::before{
+  content:'';position:absolute;top:0;left:0;right:0;height:3px;
+  background:linear-gradient(90deg,var(--teal),var(--teal-mid));
+}
+.modal-close{
+  position:absolute;top:14px;right:16px;
+  width:28px;height:28px;border-radius:7px;
+  background:transparent;border:none;cursor:pointer;
+  color:var(--muted);font-size:18px;line-height:1;
+  display:flex;align-items:center;justify-content:center;
+  transition:background .15s,color .15s;
+}
+.modal-close:hover{background:var(--surface2);color:var(--ink)}
+.modal-rocket{
+  width:60px;height:60px;border-radius:16px;
+  background:var(--teal-soft);
+  display:flex;align-items:center;justify-content:center;
+  font-size:28px;margin:0 auto 18px;
+  animation:rocketBounce 1.2s cubic-bezier(.34,1.4,.64,1) both .2s;
+}
+@keyframes rocketBounce{from{opacity:0;transform:scale(.4) translateY(20px)}to{opacity:1;transform:scale(1) translateY(0)}}
+.modal-eyebrow{
+  font-size:10px;font-weight:600;letter-spacing:1px;text-transform:uppercase;
+  color:var(--teal);text-align:center;margin-bottom:8px;
+}
+.modal-title{
+  font-size:20px;font-weight:700;color:var(--ink);
+  text-align:center;line-height:1.3;margin-bottom:8px;
+}
+.modal-sub{
+  font-size:13px;color:var(--muted);text-align:center;
+  line-height:1.65;margin-bottom:24px;
+}
+.modal-sub strong{color:var(--ink2)}
+.modal-input{
+  width:100%;padding:12px 14px;
+  border:1.5px solid var(--border);border-radius:10px;
+  font-size:13px;font-family:var(--font);
+  color:var(--ink);background:var(--surface2);
+  margin-bottom:10px;
+  transition:border-color .2s;
+  outline:none;
+}
+.modal-input:focus{border-color:var(--teal);background:#fff}
+.modal-input::placeholder{color:var(--muted2)}
+.modal-input:disabled{opacity:.55;cursor:not-allowed}
+.modal-cta{
+  width:100%;padding:14px;
+  background:var(--teal);color:#fff;
+  border:none;border-radius:10px;
+  font-size:14px;font-weight:600;font-family:var(--font);
+  cursor:pointer;
+  transition:all .2s;
+  box-shadow:0 4px 20px var(--teal-glow);
+  margin-top:4px;
+}
+.modal-cta:hover{background:#0a7a52;transform:translateY(-1px)}
+.modal-cta:disabled{opacity:.5;pointer-events:none;transform:none}
+.modal-skip{
+  display:block;text-align:center;margin-top:14px;
+  font-size:12px;color:var(--muted);cursor:pointer;
+  text-decoration:underline;text-decoration-style:dotted;
+  background:none;border:none;font-family:var(--font);
+  width:100%;
+}
+.modal-skip:hover{color:var(--ink)}
+.modal-benefit-row{
+  display:flex;gap:8px;margin-bottom:20px;
+  justify-content:center;flex-wrap:wrap;
+}
+.modal-benefit{
+  display:flex;align-items:center;gap:5px;
+  font-size:11px;color:var(--muted);
+  background:var(--surface2);
+  border:1px solid var(--border);
+  border-radius:20px;padding:4px 10px;
+}
+.modal-benefit::before{content:'✓';color:var(--teal);font-size:11px}
+/* success state */
+.modal-success{display:none;text-align:center;padding:8px 0}
+.modal-success .ms-icon{font-size:44px;margin-bottom:12px;display:block;animation:rocketBounce .5s cubic-bezier(.34,1.3,.64,1) both}
+.modal-success h3{font-size:18px;font-weight:700;color:var(--ink);margin-bottom:6px}
+.modal-success p{font-size:13px;color:var(--muted);line-height:1.65;margin-bottom:20px}
+.modal-success .ms-btn{display:inline-block;padding:10px 24px;background:var(--teal);color:#fff;border-radius:9px;font-size:13px;font-weight:600;cursor:pointer;border:none;font-family:var(--font);transition:background .15s}
+.modal-success .ms-btn:hover{background:#0a7a52}
 </style>
 </head>
 <body>
@@ -963,13 +1072,72 @@ function coletarRespostas() {
 
 function enviarResposta() {
   var respostas = coletarRespostas();
+
+  // Envia a enquete ao proxy
   fetch(PROXY_URL, {
     method: 'POST', mode: 'no-cors',
     headers: {'Content-Type': 'application/json'},
     body: JSON.stringify({profile: profile, respostas: respostas})
-  }).catch(function(e){ console.log('envio:', e); });
+  }).catch(function(e){ console.log('envio enquete:', e); });
+
+  // Pré-preenche o e-mail no modal com o que o usuário já digitou
+  var emailInput = document.getElementById('modalEmail');
+  if (emailInput) {
+    emailInput.value = emailSalvo || '';
+    emailInput.placeholder = emailSalvo ? emailSalvo : 'Seu e-mail';
+  }
+
+  // Abre o modal de lista de espera
+  abrirModal();
+}
+
+function abrirModal() {
+  document.getElementById('modalOverlay').classList.add('open');
+  setTimeout(function() {
+    var n = document.getElementById('modalNome');
+    if (n) n.focus();
+  }, 400);
+}
+
+function fecharModal() {
+  document.getElementById('modalOverlay').classList.remove('open');
+  // Vai para tela de obrigado após fechar
   document.getElementById('shareMsg').textContent = MSGS[profile] || '';
   showScreen('s-thanks');
+}
+
+function confirmarListaEspera() {
+  var nome  = document.getElementById('modalNome').value.trim();
+  var email = emailSalvo || document.getElementById('modalEmail').value.trim();
+  var errEl = document.getElementById('modalError');
+
+  if (!nome) {
+    errEl.style.display = 'block';
+    document.getElementById('modalNome').focus();
+    return;
+  }
+  errEl.style.display = 'none';
+
+  // Desabilita botão para evitar duplo envio
+  document.getElementById('modalCta').disabled = true;
+
+  // Envia para lista de espera
+  fetch(PROXY_URL, {
+    method: 'POST', mode: 'no-cors',
+    headers: {'Content-Type': 'application/json'},
+    body: JSON.stringify({
+      profile: 'lista_espera',
+      respostas: {
+        nome:   nome,
+        email:  email,
+        perfil: profile === 'prof' ? 'Profissional SST' : profile === 'emp' ? 'Empresa / RH' : 'Estudante / Recém-formado'
+      }
+    })
+  }).catch(function(e){ console.log('envio lista:', e); });
+
+  // Mostra sucesso no modal
+  document.getElementById('modalForm').style.display = 'none';
+  document.getElementById('modalSuccess').style.display = 'block';
 }
 
 function getMsgComLink() {
@@ -1003,6 +1171,19 @@ function compartilhar(rede) {
   if (url) window.open(url, '_blank', 'noopener,noreferrer');
 }
 
+// Fecha ao clicar fora do card
+document.addEventListener('click', function(e) {
+  var overlay = document.getElementById('modalOverlay');
+  if (e.target === overlay) fecharModal();
+});
+// Fecha com ESC
+document.addEventListener('keydown', function(e) {
+  if (e.key === 'Escape') {
+    var overlay = document.getElementById('modalOverlay');
+    if (overlay && overlay.classList.contains('open')) fecharModal();
+  }
+});
+
 function copiarMsg() {
   var msg = getMsgComLink();
   navigator.clipboard.writeText(msg).then(function(){
@@ -1013,5 +1194,34 @@ function copiarMsg() {
 }
 
 </script>
+
+<!-- ── MODAL LISTA DE ESPERA ───────────────────────────────── -->
+<div class="modal-overlay" id="modalOverlay">
+  <div class="modal-box" role="dialog" aria-modal="true" aria-labelledby="modalTitle">
+    <button class="modal-close" onclick="fecharModal()" aria-label="Fechar">&#x2715;</button>
+    <div id="modalForm">
+      <div class="modal-rocket">&#x1F680;</div>
+      <div class="modal-eyebrow">Quase la!</div>
+      <div class="modal-title" id="modalTitle">Quer ser um dos primeiros<br>a usar a plataforma?</div>
+      <div class="modal-sub">Entre na lista de espera e receba acesso <strong>antes do lancamento publico</strong> com beneficios exclusivos para quem entrar agora.</div>
+      <div class="modal-benefit-row">
+        <div class="modal-benefit">Acesso antecipado</div>
+        <div class="modal-benefit">Plano gratuito estendido</div>
+        <div class="modal-benefit">Sem spam</div>
+      </div>
+      <div id="modalError" style="display:none;font-size:12px;color:#c0392b;background:rgba(192,57,43,.07);border:1px solid rgba(192,57,43,.15);border-radius:8px;padding:8px 12px;margin-bottom:10px;text-align:center">Por favor, preencha seu nome para continuar.</div>
+      <input type="text"  id="modalNome"  class="modal-input" placeholder="Seu nome completo" autocomplete="name">
+      <input type="email" id="modalEmail" class="modal-input" placeholder="Seu e-mail" autocomplete="email" disabled>
+      <button class="modal-cta" id="modalCta" onclick="confirmarListaEspera()">Quero meu lugar na lista &rarr;</button>
+      <button class="modal-skip" onclick="fecharModal()">Nao, obrigado &mdash; so queria responder a pesquisa</button>
+    </div>
+    <div class="modal-success" id="modalSuccess">
+      <span class="ms-icon">&#x1F389;</span>
+      <h3>Voce esta na lista!</h3>
+      <p>Perfeito! Voce sera um dos primeiros a ter acesso quando a plataforma lancar. Fique de olho no seu e-mail.</p>
+      <button class="ms-btn" onclick="fecharModal()">Ver meu resultado da pesquisa</button>
+    </div>
+  </div>
+</div>
 </body>
 </html>
