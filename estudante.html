@@ -1,0 +1,331 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>SST Marketplace · Para Estudantes e Recém-Formados</title>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,300;0,9..144,700;0,9..144,900;1,9..144,400&family=DM+Sans:wght@300;400;500;600&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+html,body{width:100%;height:100%;overflow:hidden;background:#000}
+body{font-family:'DM Sans',sans-serif}
+:root{--b:#378add;--bd:rgba(55,138,221,.1);--bm:rgba(55,138,221,.22);--bg:#06090d}
+.stage{width:100vw;height:100vh;position:relative;overflow:hidden;background:var(--bg)}
+.bg-grid{position:absolute;inset:0;background-image:linear-gradient(rgba(55,138,221,.04) 1px,transparent 1px),linear-gradient(90deg,rgba(55,138,221,.04) 1px,transparent 1px);background-size:48px 48px}
+.orb{position:absolute;border-radius:50%;pointer-events:none}
+.oa{width:480px;height:480px;background:#0a1e44;opacity:.6;top:-140px;left:-80px}
+.ob{width:320px;height:320px;background:#378add;opacity:.05;bottom:-60px;right:-60px}
+.scan{position:absolute;left:0;right:0;height:1px;background:linear-gradient(90deg,transparent,rgba(55,138,221,.35),transparent);z-index:50;animation:sc 5s linear infinite}
+@keyframes sc{0%{top:-1px;opacity:0}8%{opacity:1}92%{opacity:.4}100%{top:100%;opacity:0}}
+.brand{position:absolute;top:22px;left:28px;display:flex;align-items:center;gap:8px;z-index:100}
+.bm{width:28px;height:28px;border-radius:7px;background:var(--b);display:flex;align-items:center;justify-content:center}
+.bm svg{width:14px;height:14px;fill:#020c1b}
+.bn{font-family:'Fraunces',serif;font-size:15px;font-weight:700;color:rgba(255,255,255,.35);letter-spacing:-.3px}
+.bn span{color:var(--b)}
+.pw{position:absolute;bottom:0;left:0;right:0;height:3px;background:rgba(255,255,255,.05);z-index:100}
+.pf{height:100%;background:var(--b);width:0%;transition:width linear}
+.dots{position:absolute;bottom:18px;left:50%;transform:translateX(-50%);display:flex;gap:6px;z-index:100}
+.dot{width:6px;height:6px;border-radius:50%;background:rgba(255,255,255,.12);transition:all .3s;cursor:pointer}
+.dot.active{background:var(--b);transform:scale(1.4)}
+.ctrls{position:absolute;bottom:12px;right:20px;display:flex;gap:7px;z-index:100}
+.cb{width:32px;height:32px;border-radius:7px;background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.07);color:rgba(255,255,255,.35);display:flex;align-items:center;justify-content:center;cursor:pointer;font-size:13px;transition:all .15s}
+.cb:hover{background:rgba(55,138,221,.1);border-color:rgba(55,138,221,.2);color:var(--b)}
+.sc{position:absolute;bottom:16px;left:20px;font-family:'DM Mono',monospace;font-size:11px;color:rgba(255,255,255,.12);z-index:100;letter-spacing:.5px}
+.slides{position:absolute;inset:0}
+.slide{position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center;padding:56px 72px;opacity:0;pointer-events:none;transition:opacity .5s}
+.slide.active{opacity:1;pointer-events:all}
+@keyframes fu{from{opacity:0;transform:translateY(26px)}to{opacity:1;transform:translateY(0)}}
+@keyframes fl{from{opacity:0;transform:translateX(-22px)}to{opacity:1;transform:translateX(0)}}
+@keyframes fr{from{opacity:0;transform:translateX(22px)}to{opacity:1;transform:translateX(0)}}
+@keyframes fs{from{opacity:0;transform:scale(.84)}to{opacity:1;transform:scale(1)}}
+@keyframes lw{from{width:0}to{width:100%}}
+@keyframes pu{0%,100%{opacity:1}50%{opacity:.4}}
+@keyframes bl{0%,100%{opacity:1}50%{opacity:0}}
+@keyframes ft{0%,100%{transform:translateY(0)}50%{transform:translateY(-8px)}}
+.au{animation:fu .65s cubic-bezier(.2,0,.2,1) both}
+.al{animation:fl .65s cubic-bezier(.2,0,.2,1) both}
+.ar{animation:fr .65s cubic-bezier(.2,0,.2,1) both}
+.as2{animation:fs .55s cubic-bezier(.34,1.2,.64,1) both}
+.d1{animation-delay:.1s}.d2{animation-delay:.28s}.d3{animation-delay:.46s}.d4{animation-delay:.64s}
+.d5{animation-delay:.82s}.d6{animation-delay:1s}.d7{animation-delay:1.18s}.d8{animation-delay:1.36s}
+.ey{font-size:11px;font-weight:500;letter-spacing:1.4px;text-transform:uppercase;color:var(--b);display:flex;align-items:center;gap:9px;margin-bottom:18px}
+.ey::before{content:'';width:24px;height:1px;background:var(--b)}
+.di{font-family:'Fraunces',serif;font-size:clamp(34px,5vw,64px);font-weight:900;line-height:1.02;letter-spacing:-2px;color:#dce8f5;margin-bottom:14px}
+.di em{font-style:italic;color:var(--b)}
+.ld{font-size:clamp(14px,1.6vw,19px);font-weight:300;color:#6a90b8;line-height:1.65;max-width:580px}
+.ld strong{color:#dce8f5;font-weight:500}
+
+/* S2 */
+#s2 .paradox{display:flex;gap:0;max-width:660px;width:100%;margin-top:22px;border-radius:12px;overflow:hidden;border:1px solid rgba(55,138,221,.12)}
+#s2 .par-side{flex:1;padding:24px 22px}
+#s2 .par-side.left{background:rgba(224,92,74,.05);border-right:1px solid rgba(55,138,221,.08)}
+#s2 .par-side.right{background:rgba(55,138,221,.04)}
+#s2 .par-icon{font-size:28px;margin-bottom:10px;display:block}
+#s2 .par-title{font-size:13px;font-weight:500;margin-bottom:8px}
+#s2 .par-side.left .par-title{color:#f0776c}
+#s2 .par-side.right .par-title{color:var(--b)}
+#s2 .par-txt{font-size:12px;color:#4a6a88;line-height:1.6}
+#s2 .paradox-label{text-align:center;font-size:13px;color:#4a6a88;margin-top:16px;font-style:italic}
+
+/* S3 */
+#s3 .pct-big{font-family:'Fraunces',serif;font-size:clamp(72px,11vw,120px);font-weight:900;line-height:1;color:var(--b);opacity:.9}
+#s3 .pct-sub{font-size:clamp(18px,2.2vw,26px);color:#dce8f5;font-weight:300;margin-top:8px;line-height:1.4}
+#s3 .pct-sub strong{font-weight:500}
+#s3 .pct-note{margin-top:20px;font-size:13px;color:#4a6a88;line-height:1.6;max-width:520px}
+#s3 .reaso-row{display:flex;flex-wrap:wrap;gap:8px;margin-top:16px}
+#s3 .r{padding:6px 14px;border-radius:20px;font-size:12px;border:1px solid rgba(55,138,221,.15);background:rgba(55,138,221,.06);color:#5a90c8}
+
+/* S4 */
+#s4 .door{display:flex;gap:20px;max-width:680px;width:100%;margin-top:24px;align-items:center}
+#s4 .door-left{flex:1}
+#s4 .door-right{width:240px;flex-shrink:0}
+#s4 .bar-item{margin-bottom:14px}
+#s4 .bi-top{display:flex;justify-content:space-between;font-size:12px;margin-bottom:6px}
+#s4 .bi-lbl{color:#6a90b8}
+#s4 .bi-pct{font-family:'Fraunces',serif;font-weight:700;color:var(--b)}
+#s4 .bi-track{height:6px;background:rgba(55,138,221,.1);border-radius:3px;overflow:hidden}
+#s4 .bi-fill{height:100%;border-radius:3px;background:var(--b);transition:width 1.2s cubic-bezier(.4,0,.2,1)}
+#s4 .door-box{background:rgba(55,138,221,.05);border:1px solid rgba(55,138,221,.15);border-radius:12px;padding:20px 16px;text-align:center}
+#s4 .door-emoji{font-size:40px;margin-bottom:10px;display:block;animation:ft 3s ease-in-out infinite}
+#s4 .door-label{font-size:12px;color:#4a6a88;line-height:1.5}
+#s4 .door-label strong{color:var(--b);display:block;font-size:14px;margin-bottom:4px}
+
+/* S5 */
+#s5 .fear-list{display:flex;flex-direction:column;gap:10px;max-width:580px;width:100%;margin-top:20px}
+#s5 .fear{display:flex;gap:14px;align-items:flex-start;padding:14px 18px;background:rgba(55,138,221,.04);border:1px solid rgba(55,138,221,.1);border-radius:10px}
+#s5 .fear-ico{font-size:22px;flex-shrink:0;margin-top:2px}
+#s5 .fear h4{font-size:13px;font-weight:500;color:#dce8f5;margin-bottom:3px}
+#s5 .fear p{font-size:12px;color:#4a6a88;line-height:1.5}
+
+/* S6 */
+#s6 .vline{width:48px;height:3px;background:var(--b);border-radius:2px;margin:22px auto;animation:lw 1s .5s both}
+
+/* S7 */
+#s7 .sol-grid{display:grid;grid-template-columns:1fr 1fr;gap:12px;max-width:640px;width:100%;margin-top:22px}
+#s7 .sol{background:rgba(55,138,221,.05);border:1px solid rgba(55,138,221,.12);border-radius:10px;padding:18px;display:flex;gap:12px}
+#s7 .sol-ico{font-size:22px;flex-shrink:0}
+#s7 .sol h4{font-size:13px;font-weight:500;color:#dce8f5;margin-bottom:3px}
+#s7 .sol p{font-size:12px;color:#4a6a88;line-height:1.5}
+#s7 .sol-tag{display:inline-block;margin-top:6px;font-size:10px;font-weight:500;letter-spacing:.4px;padding:2px 8px;border-radius:20px;background:rgba(55,138,221,.1);color:var(--b)}
+
+/* S8 */
+#s8 .steps{display:flex;gap:0;max-width:800px;width:100%;margin-top:28px;align-items:stretch}
+#s8 .step{flex:1;text-align:center;padding:20px 12px;position:relative}
+#s8 .step:not(:last-child)::after{content:'›';position:absolute;right:-8px;top:42px;font-size:20px;color:rgba(55,138,221,.3)}
+#s8 .sn{width:42px;height:42px;border-radius:11px;background:var(--bd);border:1px solid var(--bm);display:flex;align-items:center;justify-content:center;margin:0 auto 10px;font-family:'Fraunces',serif;font-size:19px;font-weight:800;color:var(--b)}
+#s8 .si{font-size:20px;margin-bottom:6px}
+#s8 .step h4{font-size:13px;font-weight:500;color:#dce8f5;margin-bottom:4px}
+#s8 .step p{font-size:11px;color:#3a5a7a;line-height:1.5}
+
+/* S9 */
+#s9 .cw{text-align:center;max-width:680px;width:100%}
+#s9 .cbg{display:inline-flex;align-items:center;gap:8px;background:var(--bd);border:1px solid rgba(55,138,221,.2);border-radius:30px;padding:6px 16px;font-size:11px;font-weight:500;letter-spacing:.8px;text-transform:uppercase;color:var(--b);margin-bottom:22px}
+#s9 .cbd{width:6px;height:6px;border-radius:50%;background:var(--b);animation:pu 2s infinite}
+#s9 .ch{font-family:'Fraunces',serif;font-size:clamp(32px,5vw,60px);font-weight:900;line-height:1.02;letter-spacing:-2px;color:#dce8f5;margin-bottom:12px}
+#s9 .ch em{font-style:italic;color:var(--b)}
+#s9 .cp{font-size:clamp(14px,1.5vw,17px);color:#6a90b8;font-weight:300;line-height:1.65;margin-bottom:30px;max-width:480px;margin-left:auto;margin-right:auto}
+#s9 .cbtn{display:inline-flex;align-items:center;gap:11px;padding:16px 36px;background:var(--b);color:#020c1b;border-radius:12px;font-size:15px;font-weight:500;font-family:'DM Sans',sans-serif;text-decoration:none;cursor:pointer;border:none;transition:all .2s}
+#s9 .cbtn:hover{background:#5aabff;transform:translateY(-2px)}
+#s9 .cbtn svg{width:16px;height:16px}
+#s9 .cm{margin-top:16px;font-size:12px;color:#2a4a6a}
+#s9 .cm strong{color:#5a90c8}
+#s9 .cu{margin-top:8px;font-family:'DM Mono',monospace;font-size:12px;color:#1a3050;letter-spacing:.4px}
+#s9 .cu span{color:#5a90c8}
+</style>
+</head>
+<body>
+<div class="stage">
+  <div class="bg-grid"></div>
+  <div class="orb oa"></div><div class="orb ob"></div>
+  <div class="scan"></div>
+  <div class="brand"><div class="bm"><svg viewBox="0 0 24 24"><path d="M12 2C9.24 2 7 4.24 7 7v1H5c-1.1 0-2 .9-2 2v10c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V10c0-1.1-.9-2-2-2h-2V7c0-2.76-2.24-5-5-5z"/></svg></div><div class="bn">Salvo<span>SST</span></div></div>
+  <div class="sc" id="sc">01 / 09</div>
+  <div class="slides">
+
+    <!-- S1 ABERTURA -->
+    <div class="slide active" id="s1">
+      <div style="position:absolute;width:400px;height:400px;border-radius:50%;border:1px solid rgba(55,138,221,.06);top:50%;left:50%;transform:translate(-50%,-50%)"></div>
+      <div style="position:absolute;width:620px;height:620px;border-radius:50%;border:1px solid rgba(55,138,221,.04);top:50%;left:50%;transform:translate(-50%,-50%)"></div>
+      <div style="position:absolute;width:840px;height:840px;border-radius:50%;border:1px solid rgba(55,138,221,.025);top:50%;left:50%;transform:translate(-50%,-50%)"></div>
+      <div style="text-align:center;max-width:760px;position:relative;z-index:2">
+        <div class="ey au d1" style="justify-content:center">Para estudantes e recém-formados em SST</div>
+        <div class="di au d2" style="font-size:clamp(32px,5.5vw,66px)">Você tem o diploma.<br>O mercado quer<br><em>experiência.</em><span style="display:inline-block;width:3px;height:.82em;background:var(--b);margin-left:4px;vertical-align:middle;animation:bl 1s infinite"></span></div>
+        <div class="ld au d3" style="text-align:center;margin:0 auto;color:#6a90b8">É o paradoxo mais cruel da área de SST.<br><strong style="color:#dce8f5">Mas existe uma saída — e ela está sendo construída agora.</strong></div>
+      </div>
+    </div>
+
+    <!-- S2 DOR 1: O PARADOXO -->
+    <div class="slide" id="s2">
+      <div style="max-width:680px;width:100%">
+        <div class="ey au d1">O paradoxo</div>
+        <div class="di au d2" style="font-size:clamp(28px,4vw,50px)">Para ter experiência<br>você precisa de <em>experiência.</em></div>
+        <div class="paradox au d3">
+          <div class="par-side left">
+            <span class="par-icon">🚪</span>
+            <div class="par-title">O que o mercado exige</div>
+            <div class="par-txt">"Precisamos de alguém com ao menos 2 anos de experiência comprovada em elaboração de PGR e PCMSO."</div>
+          </div>
+          <div class="par-side right">
+            <span class="par-icon">🎓</span>
+            <div class="par-title">O que você tem</div>
+            <div class="par-txt">Formação completa, registro em mãos, conhecimento técnico sólido — mas sem o histórico de projetos que o mercado pede.</div>
+          </div>
+        </div>
+        <div class="paradox-label au d4">"Como construo experiência se ninguém me dá a primeira chance?"</div>
+      </div>
+    </div>
+
+    <!-- S3 DOR 2: 65% FORA DO MERCADO -->
+    <div class="slide" id="s3">
+      <div style="max-width:680px;width:100%;display:flex;gap:48px;align-items:center">
+        <div style="flex-shrink:0;text-align:center">
+          <div class="pct-big au d1">65%</div>
+        </div>
+        <div>
+          <div class="ey au d2">A realidade</div>
+          <div class="pct-sub au d3">dos formados em SST estão <strong>fora da área</strong> — trabalhando em outra profissão ou desempregados.</div>
+          <div class="pct-note au d4">Não é por falta de competência. É por falta de canal de entrada. O mercado CLT exige experiência. O mercado autônomo exige clientes que você ainda não tem.</div>
+          <div class="reaso-row au d5">
+            <span class="r">Sem portfólio</span>
+            <span class="r">Sem rede de contatos</span>
+            <span class="r">Sem como captar</span>
+            <span class="r">Insegurança técnica</span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- S4 DOR 3: AS BARREIRAS -->
+    <div class="slide" id="s4">
+      <div style="max-width:680px;width:100%">
+        <div class="ey au d1">As barreiras reais</div>
+        <div class="di au d2" style="font-size:clamp(26px,3.8vw,48px)">O que impede você<br>de <em>dar o primeiro passo.</em></div>
+        <div class="door au d3">
+          <div class="door-left">
+            <div class="bar-item">
+              <div class="bi-top"><span class="bi-lbl">Falta de portfólio e experiência</span><span class="bi-pct">88%</span></div>
+              <div class="bi-track"><div class="bi-fill" style="width:88%"></div></div>
+            </div>
+            <div class="bar-item">
+              <div class="bi-top"><span class="bi-lbl">Não sabe como captar clientes</span><span class="bi-pct">82%</span></div>
+              <div class="bi-track"><div class="bi-fill" style="width:82%"></div></div>
+            </div>
+            <div class="bar-item">
+              <div class="bi-top"><span class="bi-lbl">Mercado exige experiência</span><span class="bi-pct">76%</span></div>
+              <div class="bi-track"><div class="bi-fill" style="width:76%"></div></div>
+            </div>
+            <div class="bar-item">
+              <div class="bi-top"><span class="bi-lbl">Insegurança técnica</span><span class="bi-pct">71%</span></div>
+              <div class="bi-track"><div class="bi-fill" style="width:71%"></div></div>
+            </div>
+            <div class="bar-item">
+              <div class="bi-top"><span class="bi-lbl">Não sabe quanto cobrar</span><span class="bi-pct">59%</span></div>
+              <div class="bi-track"><div class="bi-fill" style="width:59%"></div></div>
+            </div>
+          </div>
+          <div class="door-right">
+            <div class="door-box">
+              <span class="door-emoji">🔓</span>
+              <div class="door-label"><strong>A porta precisa ser aberta</strong>Um primeiro projeto real é tudo que você precisa para começar.</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- S5 DOR 4: MEDO DE ERRAR -->
+    <div class="slide" id="s5">
+      <div style="max-width:660px;width:100%">
+        <div class="ey au d1">O medo que paralisa</div>
+        <div class="di au d2" style="font-size:clamp(28px,4vw,50px)">E se eu errar no<br>primeiro documento<br><em>sozinho?</em></div>
+        <div class="fear-list au d3">
+          <div class="fear"><div class="fear-ico">📋</div><div><h4>Medo de erro técnico</h4><p>PGR fora da NR-01, PCMSO sem os exames corretos — e sem ninguém para revisar antes de entregar ao cliente.</p></div></div>
+          <div class="fear"><div class="fear-ico">⚖️</div><div><h4>Medo de responsabilidade legal</h4><p>Se o documento tiver problema, quem assina é você. Isso pesa mais quando não há mentor por perto.</p></div></div>
+          <div class="fear"><div class="fear-ico">💸</div><div><h4>Medo de cobrar errado</h4><p>Cobrar demais e perder o cliente. Cobrar de menos e desvalorizar seu trabalho. Sem referência fica impossível.</p></div></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- S6 VIRADA -->
+    <div class="slide" id="s6">
+      <div style="text-align:center;max-width:680px">
+        <div class="ey au d1" style="justify-content:center">A solução</div>
+        <div class="di au d2" style="font-size:clamp(30px,5vw,60px);text-align:center">Existe uma <em>porta de entrada</em><br>sendo construída para você.</div>
+        <div class="vline"></div>
+        <div class="ld au d4" style="text-align:center;margin:0 auto;color:#6a90b8;font-size:clamp(14px,1.5vw,18px)">Uma plataforma onde você acessa <strong style="color:#dce8f5">projetos reais</strong>, conta com <strong style="color:#dce8f5">mentoria de profissionais seniores</strong>, usa <strong style="color:#dce8f5">templates validados</strong> e constrói portfólio com avaliações reais de clientes.</div>
+      </div>
+    </div>
+
+    <!-- S7 SOLUÇÃO -->
+    <div class="slide" id="s7">
+      <div style="max-width:700px;width:100%">
+        <div class="ey au d1">O que você vai ter</div>
+        <div class="di au d2" style="font-size:clamp(26px,3.8vw,46px)">Tudo que você precisa<br>para <em>entrar no mercado.</em></div>
+        <div class="sol-grid au d3">
+          <div class="sol"><div class="sol-ico">📌</div><div><h4>Projetos júnior</h4><p>Demandas menores, ideais para quem está começando. Escopo e preço adaptados.</p><span class="sol-tag">MVP</span></div></div>
+          <div class="sol"><div class="sol-ico">🧑‍🏫</div><div><h4>Mentoria de sênior</h4><p>Profissional experiente disponível para revisar sua entrega e tirar dúvidas técnicas.</p><span class="sol-tag">MVP</span></div></div>
+          <div class="sol"><div class="sol-ico">📄</div><div><h4>Templates validados</h4><p>Modelos de PGR, PCMSO, laudos e mais — estruturados por especialistas da área.</p><span class="sol-tag">V1</span></div></div>
+          <div class="sol"><div class="sol-ico">💰</div><div><h4>Tabela de preços</h4><p>Faixas de referência por serviço e região para você cobrar com confiança.</p><span class="sol-tag">V1</span></div></div>
+          <div class="sol"><div class="sol-ico">⭐</div><div><h4>Portfólio com avaliações</h4><p>Cada entrega vira uma avaliação pública que abre portas para projetos maiores.</p><span class="sol-tag">MVP</span></div></div>
+          <div class="sol"><div class="sol-ico">🤝</div><div><h4>Comunidade SST</h4><p>Troca de experiências com profissionais da área — seniores e iniciantes juntos.</p><span class="sol-tag">V1</span></div></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- S8 COMO FUNCIONA -->
+    <div class="slide" id="s8">
+      <div style="text-align:center;max-width:820px;width:100%">
+        <div class="ey au d1" style="justify-content:center">O seu caminho</div>
+        <div class="di au d2" style="font-size:clamp(26px,3.5vw,46px);margin-bottom:6px">De recém-formado a <em>profissional reconhecido.</em></div>
+        <div class="steps au d3">
+          <div class="step"><div class="sn">1</div><div class="si">🎓</div><h4>Cria perfil júnior</h4><p>Formação, áreas de interesse e disponibilidade</p></div>
+          <div class="step"><div class="sn">2</div><div class="si">📌</div><h4>Acessa projetos</h4><p>Demandas menores adequadas para iniciantes</p></div>
+          <div class="step"><div class="sn">3</div><div class="si">🧑‍🏫</div><h4>Conta com mentor</h4><p>Sênior revisa sua entrega antes de ir ao cliente</p></div>
+          <div class="step"><div class="sn">4</div><div class="si">📦</div><h4>Entrega e recebe</h4><p>Cliente avalia — avaliação fica pública no seu perfil</p></div>
+          <div class="step"><div class="sn">5</div><div class="si">📈</div><h4>Cresce na plataforma</h4><p>Portfólio real abre projetos maiores e melhor remunerados</p></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- S9 CTA -->
+    <div class="slide" id="s9">
+      <div class="cw">
+        <div class="cbg au d1"><div class="cbd"></div>Para estudantes e recém-formados</div>
+        <div class="ch au d2">Sua história vai<br>abrir <em>esta porta.</em></div>
+        <div class="cp au d3">Responda nossa pesquisa em 5 minutos. Você ajuda a construir a plataforma que vai dar a você a primeira chance que o mercado sempre negou.</div>
+        <a class="cbtn as2 d4" href="https://conectasst.github.io/salvo/" target="_blank">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M9 18l6-6-6-6"/></svg>
+          Quero participar da pesquisa
+        </a>
+        <div class="cm au d5"><strong>5 minutos</strong> · 100% anônimo · gratuito · sem cadastro</div>
+        <div class="cu au d6"><span>conectasst.github.io</span>/salvo</div>
+      </div>
+    </div>
+
+  </div>
+  <div class="pw"><div class="pf" id="pf"></div></div>
+  <div class="dots" id="dw"></div>
+  <div class="ctrls">
+    <div class="cb" id="bp" onclick="tp()" title="Play/Pause">▶</div>
+    <div class="cb" onclick="prev()">‹</div>
+    <div class="cb" onclick="next()">›</div>
+  </div>
+</div>
+<script>
+var T=9,D=[5,7,6,7,7,5,7,7,9],cur=0,play=true,tmr=null;
+var sls=document.querySelectorAll('.slide'),cnt=document.getElementById('sc'),pf=document.getElementById('pf'),dw=document.getElementById('dw'),bp=document.getElementById('bp');
+for(var i=0;i<T;i++){var d=document.createElement('div');d.className='dot'+(i===0?' active':'');d.setAttribute('data-i',i);d.addEventListener('click',function(){gt(+this.getAttribute('data-i'));});dw.appendChild(d);}
+function ud(){document.querySelectorAll('.dot').forEach(function(d,i){d.classList.toggle('active',i===cur);})}
+function uc(){cnt.textContent=String(cur+1).padStart(2,'0')+' / '+String(T).padStart(2,'0')}
+function ra(el){el.querySelectorAll('.au,.al,.ar,.as2').forEach(function(e){e.style.animation='none';e.offsetHeight;e.style.animation='';})}
+function sp(){pf.style.transition='none';pf.style.width='0%';pf.offsetHeight;var d=D[cur]*1000;pf.style.transition='width '+d+'ms linear';pf.style.width='100%';}
+function xp(){var c=parseFloat(getComputedStyle(pf).width),t=pf.parentElement.offsetWidth;pf.style.transition='none';pf.style.width=(c/t*100)+'%';}
+function gt(i){sls[cur].classList.remove('active');cur=(i+T)%T;sls[cur].classList.add('active');ra(sls[cur]);ud();uc();clearTimeout(tmr);if(play){sp();sn();}}
+function sn(){clearTimeout(tmr);tmr=setTimeout(function(){if(cur<T-1){gt(cur+1);}else{play=false;bp.textContent='▶';pf.style.width='100%';}},D[cur]*1000);}
+function next(){gt(cur+1);}function prev(){gt(cur-1);}
+function tp(){play=!play;bp.textContent=play?'⏸':'▶';if(play){sp();sn();}else{clearTimeout(tmr);xp();}}
+document.addEventListener('keydown',function(e){if(e.key==='ArrowRight'||e.key===' ')next();if(e.key==='ArrowLeft')prev();if(e.key==='p'||e.key==='P')tp();});
+bp.textContent='⏸';sp();sn();
+</script>
+</body>
+</html>
